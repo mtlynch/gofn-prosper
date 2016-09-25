@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestAccounts(t *testing.T) {
+func TestAccountsSuccessfulResponse(t *testing.T) {
 	setUp()
 	defer tearDown()
 
@@ -58,5 +58,24 @@ func TestAccounts(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("client.Accounts returned %#v, want %#v", got, want)
+	}
+}
+
+func TestAccountsErrorResponse(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	mux.HandleFunc("/accounts/prosper/",
+		func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, "mock server error: request failed")
+		},
+	)
+	client := Client{
+		baseUrl:      server.URL,
+		tokenManager: mockTokenManager{},
+	}
+	_, err := client.Accounts()
+	if err == nil {
+		t.Fatal("client.Accounts should fail when server returns error")
 	}
 }
