@@ -579,3 +579,26 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 		t.Errorf("client.Search returned %#v, want %#v", got, want)
 	}
 }
+
+func TestSearchFailedResponse(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	mux.HandleFunc("/search/listings/",
+		func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, "mock server error: request failed")
+		},
+	)
+	client := Client{
+		baseUrl:      server.URL,
+		tokenManager: mockTokenManager{},
+	}
+	_, err := client.Search(SearchParams{
+		Offset: 0,
+		Limit:  50,
+		ExcludeListingsInvested: true,
+	})
+	if err == nil {
+		t.Fatal("client.Search should fail when server returns error")
+	}
+}
