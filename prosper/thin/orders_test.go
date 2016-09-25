@@ -66,6 +66,30 @@ func TestPlaceBidSuccessfulResponse(t *testing.T) {
 	}
 }
 
+func TestPlaceBidMalformedJsonResponse(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	mux.HandleFunc("/orders/",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			testContentType(t, r, "application/json")
+			fmt.Fprint(w, `{ malformed JSON, never closed`)
+		},
+	)
+
+	client := Client{
+		baseUrl:      server.URL,
+		tokenManager: mockTokenManager{},
+	}
+	_, err := client.PlaceBid([]BidRequest{
+		{215032, 32},
+	})
+	if err == nil {
+		t.Error("client.PlaceBid should fail when server response has malformed JSON")
+	}
+}
+
 func TestPlaceBidServerError(t *testing.T) {
 	setUp()
 	defer tearDown()
