@@ -29,6 +29,9 @@ type (
 	}
 )
 
+// Search queries Prosper for current listings that match specified search
+// parameters. Search implements the REST API described at:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 func (c Client) Search(p SearchParams) (response SearchResponse, err error) {
 	queryString := searchParamsToQueryString(p)
 	err = c.DoRequest("GET", c.baseUrl+"/search/listings/?"+queryString, nil, &response)
