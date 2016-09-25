@@ -3,6 +3,8 @@ package thin
 import "github.com/mtlynch/gofn-prosper/types"
 
 type (
+	// SearchFilter specifies a filter for the types of listings to retrieve in
+	// the Search function.
 	SearchFilter struct {
 		EstimatedReturn                           types.Float64Range
 		IncomeRange                               []int8
@@ -15,6 +17,7 @@ type (
 		ListingStatus                             []int
 	}
 
+	// SearchParams specifies parameters to the Search
 	SearchParams struct {
 		Offset                  int
 		Limit                   int
@@ -22,6 +25,8 @@ type (
 		Filter                  SearchFilter
 	}
 
+	// SearchResponse contains the full response from the Search API in minimally
+	// parsed form.
 	SearchResponse struct {
 		Results     []SearchResult `json:"result"`
 		ResultCount int            `json:"result_count"`
