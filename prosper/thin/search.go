@@ -17,7 +17,7 @@ type (
 		ListingStatus                             []int
 	}
 
-	// SearchParams specifies parameters to the Search
+	// SearchParams specifies parameters to the Search.
 	SearchParams struct {
 		Offset                  int
 		Limit                   int

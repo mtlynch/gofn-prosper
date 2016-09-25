@@ -8,6 +8,8 @@ import (
 )
 
 type (
+	// SearchFilter specifies a filter for the types of listings to retrieve in
+	// the Search function.
 	SearchFilter struct {
 		EstimatedReturn                           types.Float64Range
 		IncomeRange                               []types.IncomeRange
@@ -20,6 +22,7 @@ type (
 		ListingStatus                             []types.ListingStatus
 	}
 
+	// SearchParams specifies parameters to the Search.
 	SearchParams struct {
 		Offset                  int
 		Limit                   int
@@ -27,11 +30,16 @@ type (
 		Filter                  SearchFilter
 	}
 
+	// ListingSearcher is an interface that supports the Search API for active
+	// Prosper listings.
 	ListingSearcher interface {
 		Search(SearchParams) (types.SearchResponse, error)
 	}
 )
 
+// Search queries Prosper for current listings that match specified search
+// parameters. Search implements the REST API described at:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 func (c Client) Search(p SearchParams) (response types.SearchResponse, err error) {
 	rawResponse, err := c.rawClient.Search(searchParamsToThinType(p))
 	if err != nil {
