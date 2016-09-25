@@ -165,3 +165,22 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 		t.Errorf("client.Search returned %#v, want %#v", got, want)
 	}
 }
+
+func TestNotesErrorResponse(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	mux.HandleFunc("/notes/",
+		func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprint(w, "mock server error: request failed")
+		},
+	)
+	client := Client{
+		baseUrl:      server.URL,
+		tokenManager: mockTokenManager{},
+	}
+	_, err := client.Notes(0, 25)
+	if err == nil {
+		t.Fatal("client.Notes should fail when server returns error")
+	}
+}
