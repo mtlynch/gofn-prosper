@@ -6,7 +6,9 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-type oauthToken struct {
+// OAuthToken is an authentication token from Prosper that is valid for a
+// limited amount of time.
+type OAuthToken struct {
 	AccessToken  string
 	TokenType    string
 	RefreshToken string
@@ -16,11 +18,11 @@ type oauthToken struct {
 // TokenManager manages the OAuth tokens for the Prosper API, providing a valid
 // token to the caller and refreshing it when needed.
 type TokenManager interface {
-	Token() (oauthToken, error)
+	Token() (OAuthToken, error)
 }
 
 type defaultTokenManager struct {
-	token         oauthToken
+	token         OAuthToken
 	authenticator ProsperAuthenticator
 	clock         types.Clock
 }
@@ -29,7 +31,7 @@ type defaultTokenManager struct {
 // Propser with the given authenticator.
 func NewTokenManager(authenticator ProsperAuthenticator) TokenManager {
 	return &defaultTokenManager{
-		token:         oauthToken{},
+		token:         OAuthToken{},
 		authenticator: authenticator,
 		clock:         types.DefaultClock{},
 	}
@@ -37,25 +39,25 @@ func NewTokenManager(authenticator ProsperAuthenticator) TokenManager {
 
 // Token returns a valid OAuth token, retrieving a new one from the Propser
 // server if necessary.
-func (m *defaultTokenManager) Token() (oauthToken, error) {
+func (m *defaultTokenManager) Token() (OAuthToken, error) {
 	if m.clock.Now().Before(m.token.Expiration) {
 		return m.token, nil
 	}
 	token, err := m.tokenFromAuthenticator()
 	if err != nil {
-		return oauthToken{}, err
+		return OAuthToken{}, err
 	}
 	m.token = token
 	return m.token, nil
 }
 
-func (m defaultTokenManager) tokenFromAuthenticator() (token oauthToken, err error) {
+func (m defaultTokenManager) tokenFromAuthenticator() (token OAuthToken, err error) {
 	response, err := m.authenticator.Authenticate()
 	if err != nil {
-		return oauthToken{}, err
+		return OAuthToken{}, err
 	}
 	expiration := m.clock.Now().Add((time.Duration(response.ExpiresIn) * time.Second))
-	return oauthToken{
+	return OAuthToken{
 		AccessToken:  response.AccessToken,
 		TokenType:    response.TokenType,
 		RefreshToken: response.RefreshToken,

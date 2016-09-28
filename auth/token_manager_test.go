@@ -38,7 +38,7 @@ func TestMultipleCallsWithinExpirationPeriodOnlyAuthenticateOnce(t *testing.T) {
 	if err != nil {
 		t.Errorf("Token() failed: %v", err)
 	}
-	want := oauthToken{
+	want := OAuthToken{
 		"mock oauth token",
 		"mock token type",
 		"mock refresh token",
@@ -84,7 +84,7 @@ func TestCallAfterExpirationPeriodRefreshesToken(t *testing.T) {
 	if err != nil {
 		t.Errorf("Token() failed: %v", err)
 	}
-	want := oauthToken{
+	want := OAuthToken{
 		"mock oauth token",
 		"mock token type",
 		"mock refresh token",
@@ -102,7 +102,7 @@ func TestCallAfterExpirationPeriodRefreshesToken(t *testing.T) {
 	if err != nil {
 		t.Errorf("Token() failed: %v", err)
 	}
-	want = oauthToken{
+	want = OAuthToken{
 		"mock oauth token",
 		"mock token type",
 		"mock refresh token",

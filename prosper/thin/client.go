@@ -8,13 +8,15 @@ import (
 	"net/http"
 	"regexp"
 	"time"
+
+	"github.com/mtlynch/gofn-prosper/auth"
 )
 
 const baseProsperUrl = "https://api.prosper.com/v1"
 
 type Client struct {
 	baseUrl      string
-	tokenManager tokenManager
+	tokenManager auth.TokenManager
 }
 
 func (c Client) DoRequest(method, urlStr string, body io.Reader, response interface{}) error {
