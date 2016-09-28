@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/url"
 
@@ -52,6 +53,9 @@ func (c client) Authenticate() (response oauthResponse, err error) {
 		return oauthResponse{}, err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return oauthResponse{}, errors.New("Prosper server error: " + resp.Status)
+	}
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
 		return oauthResponse{}, err

@@ -41,7 +41,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		if body, err := ioutil.ReadAll(resp.Body); err == nil {
 			msgCleaned := regexp.MustCompile(`\n\s*`).ReplaceAllString(string(body), " ")
 			return errors.New("request failed: " + resp.Status + " -" + msgCleaned)
