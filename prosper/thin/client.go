@@ -22,7 +22,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	if err != nil {
 		return err
 	}
-	accessToken, err := c.Token()
+	accessToken, err := c.token()
 	if err != nil {
 		return err
 	}
@@ -65,7 +65,7 @@ type RawApiHandler interface {
 	OrderStatus(string) (OrderResponse, error)
 }
 
-func (c Client) Token() (string, error) {
+func (c Client) token() (string, error) {
 	token, err := c.tokenManager.Token()
 	if err != nil {
 		return "", err
