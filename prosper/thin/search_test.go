@@ -5,13 +5,15 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/mtlynch/gofn-prosper/auth"
 )
 
 type mockTokenManager struct {
 }
 
-func (m mockTokenManager) Token() (oauthToken, error) {
-	return oauthToken{}, nil
+func (m mockTokenManager) Token() (auth.OAuthToken, error) {
+	return auth.OAuthToken{}, nil
 }
 
 func TestSearchSuccessfulResponse(t *testing.T) {
