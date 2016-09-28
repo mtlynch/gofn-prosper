@@ -19,7 +19,7 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 		Username:     "mock username",
 		Password:     "mock password",
 	}
-	client := &client{
+	a := &authenticator{
 		baseUrl: server.URL,
 		creds:   creds,
 	}
@@ -43,9 +43,9 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 		},
 	)
 
-	got, err := client.Authenticate()
+	got, err := a.Authenticate()
 	if err != nil {
-		t.Errorf("client.Authenticate failed: %v", err)
+		t.Errorf("authenticator.Authenticate failed: %v", err)
 	}
 
 	want := oauthResponse{
@@ -55,7 +55,7 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 		ExpiresIn:    3599,
 	}
 	if !reflect.DeepEqual(got, want) {
-		t.Errorf("client.Authenticate returned %+v, want %+v",
+		t.Errorf("authenticator.Authenticate returned %+v, want %+v",
 			got, want)
 	}
 }
@@ -70,14 +70,14 @@ func TestAuthenticateHttpError(t *testing.T) {
 		Username:     "mock username",
 		Password:     "mock password",
 	}
-	client := &client{
+	a := &authenticator{
 		baseUrl: server.URL,
 		creds:   creds,
 	}
 
-	_, err := client.Authenticate()
+	_, err := a.Authenticate()
 	if err == nil {
-		t.Error("client.Authenticate should fail when server returns HTTP error")
+		t.Error("authenticator.Authenticate should fail when server returns HTTP error")
 	}
 }
 
@@ -91,7 +91,7 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 		Username:     "mock username",
 		Password:     "mock password",
 	}
-	client := &client{
+	a := &authenticator{
 		baseUrl: server.URL,
 		creds:   creds,
 	}
@@ -102,8 +102,8 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 		},
 	)
 
-	_, err := client.Authenticate()
+	_, err := a.Authenticate()
 	if err == nil {
-		t.Error("client.Authenticate should fail when server returns invalid response")
+		t.Error("authenticator.Authenticate should fail when server returns invalid response")
 	}
 }

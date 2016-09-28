@@ -17,15 +17,15 @@ type ProsperAuthenticator interface {
 	Authenticate() (oauthResponse, error)
 }
 
-type client struct {
+type authenticator struct {
 	baseUrl string
 	creds   types.ClientCredentials
 }
 
-// NewClient creates a new, unauthenticated Prosper API client with the given
-// Prosper credentials.
-func NewClient(creds types.ClientCredentials) ProsperAuthenticator {
-	return &client{
+// NewAuthenticator creates a new, unauthenticated Prosper API client with the
+// given Prosper credentials.
+func NewAuthenticator(creds types.ClientCredentials) ProsperAuthenticator {
+	return &authenticator{
 		baseUrl: baseProsperUrl,
 		creds:   creds,
 	}
@@ -40,7 +40,7 @@ type oauthResponse struct {
 
 // Authenticate authenticates to the Prosper API server and retrieves a raw
 // OAuth response.
-func (c client) Authenticate() (response oauthResponse, err error) {
+func (c authenticator) Authenticate() (response oauthResponse, err error) {
 	resp, err := http.PostForm(c.baseUrl+"/security/oauth/token",
 		url.Values{
 			"grant_type":    {"password"},
