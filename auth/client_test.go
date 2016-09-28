@@ -1,4 +1,4 @@
-package thin
+package auth
 
 import (
 	"fmt"
@@ -13,14 +13,15 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	unauthenticatedClient := &unauthenticatedClient{
-		baseUrl: server.URL,
-	}
-	credentials := types.ClientCredentials{
+	creds := types.ClientCredentials{
 		ClientId:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
+	}
+	client := &client{
+		baseUrl: server.URL,
+		creds:   creds,
 	}
 
 	mux.HandleFunc("/security/oauth/token",
@@ -28,10 +29,10 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 			testMethod(t, r, "POST")
 			testFormValues(t, r, values{
 				"grant_type":    "password",
-				"client_id":     credentials.ClientId,
-				"client_secret": credentials.ClientSecret,
-				"username":      credentials.Username,
-				"password":      credentials.Password,
+				"client_id":     creds.ClientId,
+				"client_secret": creds.ClientSecret,
+				"username":      creds.Username,
+				"password":      creds.Password,
 			})
 			fmt.Fprint(w, `{
 				"access_token":"mock access token",
@@ -42,7 +43,7 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 		},
 	)
 
-	got, err := unauthenticatedClient.Authenticate(credentials)
+	got, err := client.Authenticate()
 	if err != nil {
 		t.Errorf("client.Authenticate failed: %v", err)
 	}
@@ -63,17 +64,18 @@ func TestAuthenticateHttpError(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	unauthenticatedClient := &unauthenticatedClient{
-		baseUrl: server.URL,
-	}
-	credentials := types.ClientCredentials{
+	creds := types.ClientCredentials{
 		ClientId:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
 	}
+	client := &client{
+		baseUrl: server.URL,
+		creds:   creds,
+	}
 
-	_, err := unauthenticatedClient.Authenticate(credentials)
+	_, err := client.Authenticate()
 	if err == nil {
 		t.Error("client.Authenticate should fail when server returns HTTP error")
 	}
@@ -83,14 +85,15 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	unauthenticatedClient := &unauthenticatedClient{
-		baseUrl: server.URL,
-	}
-	credentials := types.ClientCredentials{
+	creds := types.ClientCredentials{
 		ClientId:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
+	}
+	client := &client{
+		baseUrl: server.URL,
+		creds:   creds,
 	}
 
 	mux.HandleFunc("/security/oauth/token",
@@ -99,7 +102,7 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 		},
 	)
 
-	_, err := unauthenticatedClient.Authenticate(credentials)
+	_, err := client.Authenticate()
 	if err == nil {
 		t.Error("client.Authenticate should fail when server returns invalid response")
 	}

@@ -12,16 +12,6 @@ import (
 
 const baseProsperUrl = "https://api.prosper.com/v1"
 
-type unauthenticatedClient struct {
-	baseUrl string
-}
-
-func newUnauthenticatedClient() *unauthenticatedClient {
-	return &unauthenticatedClient{
-		baseUrl: baseProsperUrl,
-	}
-}
-
 type Client struct {
 	baseUrl      string
 	tokenManager tokenManager
@@ -73,4 +63,12 @@ type RawApiHandler interface {
 	Search(SearchParams) (SearchResponse, error)
 	PlaceBid([]BidRequest) (OrderResponse, error)
 	OrderStatus(string) (OrderResponse, error)
+}
+
+func (c Client) Token() (string, error) {
+	token, err := c.tokenManager.Token()
+	if err != nil {
+		return "", err
+	}
+	return token.AccessToken, nil
 }
