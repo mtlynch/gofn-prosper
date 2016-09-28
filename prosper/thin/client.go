@@ -12,16 +12,6 @@ import (
 
 const baseProsperUrl = "https://api.prosper.com/v1"
 
-type unauthenticatedClient struct {
-	baseUrl string
-}
-
-func newUnauthenticatedClient() *unauthenticatedClient {
-	return &unauthenticatedClient{
-		baseUrl: baseProsperUrl,
-	}
-}
-
 type Client struct {
 	baseUrl      string
 	tokenManager tokenManager
@@ -32,7 +22,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	if err != nil {
 		return err
 	}
-	accessToken, err := c.Token()
+	accessToken, err := c.token()
 	if err != nil {
 		return err
 	}
@@ -51,7 +41,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	}
 
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		if body, err := ioutil.ReadAll(resp.Body); err == nil {
 			msgCleaned := regexp.MustCompile(`\n\s*`).ReplaceAllString(string(body), " ")
 			return errors.New("request failed: " + resp.Status + " -" + msgCleaned)
@@ -73,4 +63,12 @@ type RawApiHandler interface {
 	Search(SearchParams) (SearchResponse, error)
 	PlaceBid([]BidRequest) (OrderResponse, error)
 	OrderStatus(string) (OrderResponse, error)
+}
+
+func (c Client) token() (string, error) {
+	token, err := c.tokenManager.Token()
+	if err != nil {
+		return "", err
+	}
+	return token.AccessToken, nil
 }
