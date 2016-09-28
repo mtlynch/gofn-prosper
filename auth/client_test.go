@@ -98,7 +98,7 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 
 	mux.HandleFunc("/security/oauth/token",
 		func(w http.ResponseWriter, r *http.Request) {
-			fmt.Fprint(w, "mock server error: request failed")
+			http.Error(w, "mock server error: request failed", 500)
 		},
 	)
 
