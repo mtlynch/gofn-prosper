@@ -19,6 +19,13 @@ type Client struct {
 	tokenManager auth.TokenManager
 }
 
+func NewClient(t auth.TokenManager) Client {
+	return Client{
+		baseUrl:      baseProsperUrl,
+		tokenManager: t,
+	}
+}
+
 func (c Client) DoRequest(method, urlStr string, body io.Reader, response interface{}) error {
 	req, err := http.NewRequest(method, urlStr, body)
 	if err != nil {
