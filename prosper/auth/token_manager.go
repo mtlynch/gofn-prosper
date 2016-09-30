@@ -56,7 +56,7 @@ func (m *defaultTokenManager) Token() (OAuthToken, error) {
 	return m.token, nil
 }
 
-func (m defaultTokenManager) tokenFromAuthenticator() (token OAuthToken, err error) {
+func (m *defaultTokenManager) tokenFromAuthenticator() (token OAuthToken, err error) {
 	response, err := m.authenticator.Authenticate()
 	if err != nil {
 		return OAuthToken{}, err
