@@ -1,7 +1,7 @@
 package prosper
 
 import (
-	"github.com/mtlynch/gofn-prosper/auth"
+	"github.com/mtlynch/gofn-prosper/prosper/auth"
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
 	"github.com/mtlynch/gofn-prosper/types"
 )
