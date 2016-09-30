@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"reflect"
+	"sync"
 	"testing"
 	"time"
 )
@@ -11,10 +12,12 @@ type mockProsperAuthenticator struct {
 	OAuthResponse     oauthResponse
 	Err               error
 	AuthenticateCalls int
+	ResponseLatency   time.Duration
 }
 
 func (m *mockProsperAuthenticator) Authenticate() (oauthResponse, error) {
 	m.AuthenticateCalls++
+	time.Sleep(m.ResponseLatency)
 	return m.OAuthResponse, m.Err
 }
 
@@ -60,6 +63,36 @@ func TestMultipleCallsWithinExpirationPeriodOnlyAuthenticateOnce(t *testing.T) {
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("Token() returned: %+v, want: %+v", got, want)
 	}
+	if a.AuthenticateCalls != 1 {
+		t.Errorf("Called Authenticate() unexpected times: %+v, want: %+v", a.AuthenticateCalls, 1)
+	}
+}
+
+func TestTokenManagerIsThreadSafe(t *testing.T) {
+	a := &mockProsperAuthenticator{
+		OAuthResponse: oauthResponse{
+			AccessToken:  "mock oauth token",
+			TokenType:    "mock token type",
+			RefreshToken: "mock refresh token",
+			ExpiresIn:    3599,
+		},
+		ResponseLatency: 200 * time.Millisecond,
+	}
+	now := time.Date(2015, 12, 24, 10, 0, 0, 0, time.UTC)
+	m := defaultTokenManager{
+		authenticator: a,
+		clock:         mockClock{&now},
+	}
+
+	var wg sync.WaitGroup
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			m.Token()
+		}()
+	}
+	wg.Wait()
 	if a.AuthenticateCalls != 1 {
 		t.Errorf("Called Authenticate() unexpected times: %+v, want: %+v", a.AuthenticateCalls, 1)
 	}
