@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"sync"
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/types"
@@ -25,6 +26,7 @@ type defaultTokenManager struct {
 	token         OAuthToken
 	authenticator ProsperAuthenticator
 	clock         types.Clock
+	lock          sync.Mutex
 }
 
 // NewTokenManager creates a new TokenManager instance that authenticates to
@@ -34,12 +36,15 @@ func NewTokenManager(authenticator ProsperAuthenticator) TokenManager {
 		token:         OAuthToken{},
 		authenticator: authenticator,
 		clock:         types.DefaultClock{},
+		lock:          sync.Mutex{},
 	}
 }
 
 // Token returns a valid OAuth token, retrieving a new one from the Propser
 // server if necessary.
 func (m *defaultTokenManager) Token() (OAuthToken, error) {
+	m.lock.Lock()
+	defer m.lock.Unlock()
 	if m.clock.Now().Before(m.token.Expiration) {
 		return m.token, nil
 	}
