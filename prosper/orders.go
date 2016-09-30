@@ -11,7 +11,10 @@ type BidPlacer interface {
 
 func (c Client) PlaceBid(listingId types.ListingNumber, bidAmount float64) (types.OrderResponse, error) {
 	rawResponse, err := c.rawClient.PlaceBid([]thin.BidRequest{
-		{int64(listingId), bidAmount},
+		{
+			ListingId: int64(listingId),
+			BidAmount: bidAmount,
+		},
 	})
 	if err != nil {
 		return types.OrderResponse{}, err
