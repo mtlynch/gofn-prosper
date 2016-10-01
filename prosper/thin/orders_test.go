@@ -156,3 +156,29 @@ func TestOrderStatusSuccessfulResponse(t *testing.T) {
 		t.Errorf("client.OrderStatus returned %#v, want %#v", got, want)
 	}
 }
+
+func TestOrderStatusFailedResponse(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	mux.HandleFunc("/orders/90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "GET")
+			http.Error(w, "", 500)
+			fmt.Fprint(w, `{
+	"code":"SYS0001",
+	"message":"Application Error"
+}`)
+		},
+	)
+
+	client := Client{
+		baseUrl:      server.URL,
+		tokenManager: mockTokenManager{},
+	}
+	errWant := errors.New(`request failed: 500 Internal Server Error - { "code":"SYS0001", "message":"Application Error" }`)
+	_, errGot := client.OrderStatus("90cf709d-81d6-416a-89f2-ba6ab8146ef2")
+	if !reflect.DeepEqual(errGot, errWant) {
+		t.Fatalf("got:\n%v\n, want:\n%v", errGot, errWant)
+	}
+}
