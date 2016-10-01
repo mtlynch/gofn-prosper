@@ -56,7 +56,10 @@ func TestPlaceBid(t *testing.T) {
 			listingId: listingIdA,
 			bidAmount: bidAmountA,
 			wantBidRequest: []thin.BidRequest{
-				{listingIdA, bidAmountA},
+				{
+					ListingId: listingIdA,
+					BidAmount: bidAmountA,
+				},
 			},
 			rawOrderResponse: thin.OrderResponse{
 				OrderId: "order_id_a",
@@ -69,7 +72,10 @@ func TestPlaceBid(t *testing.T) {
 			listingId: listingIdB,
 			bidAmount: bidAmountB,
 			wantBidRequest: []thin.BidRequest{
-				{listingIdB, bidAmountB},
+				{
+					ListingId: listingIdB,
+					BidAmount: bidAmountB,
+				},
 			},
 			rawOrderResponse: thin.OrderResponse{
 				OrderId: "order_id_b",
