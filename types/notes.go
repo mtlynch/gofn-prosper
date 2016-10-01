@@ -2,6 +2,9 @@ package types
 
 import "time"
 
+// DefaultReason describes the reason a note went into default. The values
+// correspond to the values of the note_default_reason attribute defined at:
+// https://developers.prosper.com/docs/investor/notes-api/
 type DefaultReason int64
 
 const (
@@ -16,23 +19,27 @@ const (
 	DefaultReasonMax DefaultReason = Sold
 )
 
+// NoteStatus represents the status of an owned note. The values correspond to
+// the values of the note_status attribute defined at:
+// https://developers.prosper.com/docs/investor/notes-api/
 type NoteStatus int64
 
 const (
-	// deprecated
-	OriginationDelayed NoteStatus = 0
-	Current            NoteStatus = 1
-	Chargeoff          NoteStatus = 2
-	Defaulted          NoteStatus = 3
-	Completed          NoteStatus = 4
-	// deprecated
-	//FinalPaymentInProgress NoteStatus = 5
-	Cancelled         NoteStatus = 6
-	NoteStatusMin     NoteStatus = OriginationDelayed
-	NoteStatusMax     NoteStatus = Cancelled
-	NoteStatusInvalid NoteStatus = -1
+	OriginationDelayed     NoteStatus = 0
+	Current                NoteStatus = 1
+	Chargeoff              NoteStatus = 2
+	Defaulted              NoteStatus = 3
+	Completed              NoteStatus = 4
+	FinalPaymentInProgress NoteStatus = 5 // deprecated
+	Cancelled              NoteStatus = 6
+	NoteStatusMin          NoteStatus = OriginationDelayed
+	NoteStatusMax          NoteStatus = Cancelled
+	NoteStatusInvalid      NoteStatus = -1
 )
 
+// ProsperRating represents the Prosper-assigned credit rating of a Prosper
+// note. The values correspond to the values of prosper_rating defined at:
+// https://developers.prosper.com/docs/investor/notes-api/
 type ProsperRating int8
 
 const (
@@ -46,6 +53,9 @@ const (
 	RatingNA
 )
 
+// Note represents the information about an owned Prosper note, returned by the
+// Notes API, described at:
+// https://developers.prosper.com/docs/investor/notes-api/
 type Note struct {
 	AgeInMonths                          int64
 	AmountBorrowed                       float64
@@ -76,6 +86,8 @@ type Note struct {
 	Term                                 int64
 }
 
+// NotesResponse represents the full response from the Notes API, described at:
+// https://developers.prosper.com/docs/investor/notes-api/
 type NotesResponse struct {
 	Result      []Note
 	ResultCount int

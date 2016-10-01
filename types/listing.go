@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+// IncomeRange represents the income range for the borrower associated with a
+// loan. Possible values correspond to the values defined under the income_range
+// attribute documented at:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 type IncomeRange int8
 
 const (
@@ -20,6 +24,10 @@ const (
 	IncomeRangeInvalid IncomeRange = -1
 )
 
+// FicoScore represents the FICO credit score of the borrower associated with a
+// loan. Possible values correspond to the values defined under the fico_score
+// attribute documented at:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 type FicoScore int8
 
 const (
@@ -39,6 +47,10 @@ const (
 	FicoScoreInvalid
 )
 
+// ListingStatus represents the status of a loan listing. Possible values
+// correspond to the values defined under the listing_status attribute
+// documented at:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 type ListingStatus int8
 
 const (
@@ -53,8 +65,12 @@ const (
 	ListingStatusUnknown             ListingStatus = -1
 )
 
+// ListingNumber represents the unique identifier associated with a listing.
 type ListingNumber int64
 
+// Listing represents the information associated with a listing, as retrieved
+// from the Search API, documented here:
+// https://developers.prosper.com/docs/investor/searchlistings-api/
 type Listing struct {
 	AmountDelinquent                          float64
 	AmountFunded                              float64
