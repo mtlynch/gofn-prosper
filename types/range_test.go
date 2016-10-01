@@ -62,6 +62,11 @@ func TestFloat64RangeEqual(t *testing.T) {
 		},
 		{
 			a:    Float64Range{Min: CreateFloat64(5.5), Max: CreateFloat64(7.7)},
+			b:    Float64Range{Min: CreateFloat64(58.58), Max: CreateFloat64(7.7)},
+			want: false,
+		},
+		{
+			a:    Float64Range{Min: CreateFloat64(5.5), Max: CreateFloat64(7.7)},
 			b:    Float64Range{Min: CreateFloat64(5.5), Max: CreateFloat64(58.58)},
 			want: false,
 		},
@@ -109,6 +114,11 @@ func TestInt32RangeEqual(t *testing.T) {
 			a:    Int32Range{Min: CreateInt32(5), Max: CreateInt32(7)},
 			b:    Int32Range{Min: CreateInt32(5), Max: CreateInt32(7)},
 			want: true,
+		},
+		{
+			a:    Int32Range{Min: CreateInt32(5), Max: CreateInt32(7)},
+			b:    Int32Range{Min: CreateInt32(58), Max: CreateInt32(7)},
+			want: false,
 		},
 		{
 			a:    Int32Range{Min: CreateInt32(5), Max: CreateInt32(7)},
