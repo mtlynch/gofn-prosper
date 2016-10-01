@@ -30,11 +30,11 @@ func (p *mockListingParser) Parse(r thin.SearchResult) (types.Listing, error) {
 }
 
 var (
-	rawListingA          = thin.SearchResult{ListingNumber: 1234}
-	rawListingB          = thin.SearchResult{ListingNumber: 4567}
-	listingA             = types.Listing{ListingNumber: 1234}
-	listingB             = types.Listing{ListingNumber: 4567}
-	mockListingParserErr = errors.New("mock listing parser error")
+	rawListingA             = thin.SearchResult{ListingNumber: 1234}
+	rawListingB             = thin.SearchResult{ListingNumber: 4567}
+	listingA                = types.Listing{ListingNumber: 1234}
+	listingB                = types.Listing{ListingNumber: 4567}
+	errMockListingParseFail = errors.New("mock listing parser error")
 )
 
 func rawSearchFilterEqual(a, b thin.SearchFilter) bool {
@@ -182,8 +182,8 @@ func TestSearch(t *testing.T) {
 				TotalCount:  1,
 			},
 			parsedListings: []types.Listing{listingA},
-			parseErrors:    []error{mockListingParserErr},
-			wantErr:        mockListingParserErr,
+			parseErrors:    []error{errMockListingParseFail},
+			wantErr:        errMockListingParseFail,
 			msg:            "parsing a single result with a parse error should fail",
 		},
 		{
@@ -193,8 +193,8 @@ func TestSearch(t *testing.T) {
 				TotalCount:  3,
 			},
 			parsedListings: []types.Listing{listingA, {}, listingB},
-			parseErrors:    []error{nil, mockListingParserErr, nil},
-			wantErr:        mockListingParserErr,
+			parseErrors:    []error{nil, errMockListingParseFail, nil},
+			wantErr:        errMockListingParseFail,
 			msg:            "a single parser error among successful parses should fail",
 		},
 	}
