@@ -1,5 +1,4 @@
 // Package prosper is a set of APIs that wrap the raw HTTP Prosper REST APIs.
-
 package prosper
 
 import (
