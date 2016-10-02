@@ -60,6 +60,43 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 	}
 }
 
+func TestAuthenticateStatusOKButResponseIsMalformed(t *testing.T) {
+	setUp()
+	defer tearDown()
+
+	creds := types.ClientCredentials{
+		ClientId:     "mock client id",
+		ClientSecret: "mock client secret",
+		Username:     "mock username",
+		Password:     "mock password",
+	}
+	a := &authenticator{
+		baseUrl: server.URL,
+		creds:   creds,
+	}
+
+	mux.HandleFunc("/security/oauth/token",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			testFormValues(t, r, values{
+				"grant_type":    "password",
+				"client_id":     creds.ClientId,
+				"client_secret": creds.ClientSecret,
+				"username":      creds.Username,
+				"password":      creds.Password,
+			})
+			fmt.Fprint(w, `{
+				malformed response
+			}`)
+		},
+	)
+
+	_, err := a.Authenticate()
+	if err == nil {
+		t.Error("authenticator.Authenticate should fail when response is malformed")
+	}
+}
+
 func TestAuthenticateHttpError(t *testing.T) {
 	setUp()
 	defer tearDown()
