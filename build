@@ -3,9 +3,10 @@
 # Exit on first error.
 set -e
 
-# Block the commit if it breaks unit tests or formatting
 go test ./...
 
 gofmt -s -d .
 
 go vet ./...
+
+golint ./...
