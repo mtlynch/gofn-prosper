@@ -16,8 +16,7 @@ var (
 	mockRawNotesResponseB = thin.NotesResponse{TotalCount: 50}
 	mockNotesResponseA    = types.NotesResponse{TotalCount: 25}
 	mockNotesResponseB    = types.NotesResponse{TotalCount: 50}
-	mockClientErr         = errors.New("mock raw client error")
-	mockParserErr         = errors.New("mock parser error")
+	errMockParserFail     = errors.New("mock parser error")
 )
 
 func (c *mockRawClient) Notes(offset, limit int) (thin.NotesResponse, error) {
@@ -51,14 +50,14 @@ func TestNotes(t *testing.T) {
 		{
 			offset:    0,
 			limit:     25,
-			clientErr: mockClientErr,
-			wantErr:   mockClientErr,
+			clientErr: errMockRawClientFail,
+			wantErr:   errMockRawClientFail,
 		},
 		{
 			offset:    0,
 			limit:     25,
-			parserErr: mockParserErr,
-			wantErr:   mockParserErr,
+			parserErr: errMockParserFail,
+			wantErr:   errMockParserFail,
 		},
 		{
 			offset:       0,

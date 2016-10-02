@@ -54,12 +54,12 @@ func TestAccountSuccess(t *testing.T) {
 func TestAccountFailsWhenRawClientFails(t *testing.T) {
 	parser := mockAccountsParser{}
 	client := Client{
-		rawClient: &mockRawClient{err: mockRawClientErr},
+		rawClient: &mockRawClient{err: errMockRawClientFail},
 		ap:        &parser,
 	}
 	_, err := client.Account()
-	if err != mockRawClientErr {
-		t.Errorf("Client.Account err got: %v, want: %v", err, mockRawClientErr)
+	if err != errMockRawClientFail {
+		t.Errorf("Client.Account err got: %v, want: %v", err, errMockRawClientFail)
 	}
 	if !reflect.DeepEqual(parser.accountsResponseGot, thin.AccountsResponse{}) {
 		t.Errorf("Client.Account should not attempt to parse when raw client fails.")

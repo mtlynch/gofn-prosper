@@ -100,8 +100,8 @@ func TestSearch(t *testing.T) {
 		msg                 string
 	}{
 		{
-			rawClientErr: mockRawClientErr,
-			wantErr:      mockRawClientErr,
+			rawClientErr: errMockRawClientFail,
+			wantErr:      errMockRawClientFail,
 			msg:          "search should fail when raw client fails",
 		},
 		{

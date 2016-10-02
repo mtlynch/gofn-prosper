@@ -87,14 +87,14 @@ func TestPlaceBid(t *testing.T) {
 		{
 			listingId: listingIdA,
 			bidAmount: bidAmountA,
-			clientErr: mockRawClientErr,
-			wantErr:   mockRawClientErr,
+			clientErr: errMockRawClientFail,
+			wantErr:   errMockRawClientFail,
 		},
 		{
 			listingId: listingIdA,
 			bidAmount: bidAmountA,
-			parserErr: mockRawClientErr,
-			wantErr:   mockRawClientErr,
+			parserErr: errMockRawClientFail,
+			wantErr:   errMockRawClientFail,
 		},
 	}
 	for _, tt := range tests {
@@ -161,13 +161,13 @@ func TestOrderStatus(t *testing.T) {
 		},
 		{
 			orderId:   orderIdA,
-			clientErr: mockRawClientErr,
-			wantErr:   mockRawClientErr,
+			clientErr: errMockRawClientFail,
+			wantErr:   errMockRawClientFail,
 		},
 		{
 			orderId:   orderIdA,
-			parserErr: mockRawClientErr,
-			wantErr:   mockRawClientErr,
+			parserErr: errMockRawClientFail,
+			wantErr:   errMockRawClientFail,
 		},
 	}
 	for _, tt := range tests {
