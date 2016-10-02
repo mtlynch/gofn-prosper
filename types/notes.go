@@ -7,6 +7,7 @@ import "time"
 // https://developers.prosper.com/docs/investor/notes-api/
 type DefaultReason int64
 
+// Set of possible DefaultReason values.
 const (
 	Delinquency      DefaultReason = 1
 	Bankruptcy       DefaultReason = 2
@@ -24,6 +25,7 @@ const (
 // https://developers.prosper.com/docs/investor/notes-api/
 type NoteStatus int64
 
+// Set of possible NoteStatus values.
 const (
 	OriginationDelayed     NoteStatus = 0
 	Current                NoteStatus = 1
@@ -42,6 +44,7 @@ const (
 // https://developers.prosper.com/docs/investor/notes-api/
 type ProsperRating int8
 
+// Set of possible ProsperRating values.
 const (
 	RatingAA ProsperRating = iota
 	RatingA

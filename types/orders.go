@@ -7,6 +7,7 @@ import "time"
 // https://developers.prosper.com/docs/investor/orders-api/
 type BidStatusValue int8
 
+// Set of possible BidStatusValue values.
 const (
 	Pending BidStatusValue = iota
 	Invested
@@ -18,6 +19,7 @@ const (
 // https://developers.prosper.com/docs/investor/orders-api/
 type BidResult int8
 
+// Set of possible BidResult values.
 const (
 	NoBidResult BidResult = iota
 	AmountBidTooHigh

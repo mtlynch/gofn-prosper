@@ -10,6 +10,7 @@ import (
 // https://developers.prosper.com/docs/investor/searchlistings-api/
 type IncomeRange int8
 
+// Set of possible IncomeRange values.
 const (
 	NotDisplayed       IncomeRange = 0
 	ZeroIncome         IncomeRange = 1
@@ -30,6 +31,7 @@ const (
 // https://developers.prosper.com/docs/investor/searchlistings-api/
 type FicoScore int8
 
+// Set of possible FicoScore values.
 const (
 	Below600 FicoScore = iota
 	Between600And619
@@ -53,6 +55,7 @@ const (
 // https://developers.prosper.com/docs/investor/searchlistings-api/
 type ListingStatus int8
 
+// Set of possible ListingStatus values.
 const (
 	ListingActive                    ListingStatus = 2
 	ListingWithdrawn                 ListingStatus = 4
