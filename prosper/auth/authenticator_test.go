@@ -14,13 +14,13 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 	defer tearDown()
 
 	creds := types.ClientCredentials{
-		ClientId:     "mock client id",
+		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
 	}
 	a := &authenticator{
-		baseUrl: server.URL,
+		baseURL: server.URL,
 		creds:   creds,
 	}
 
@@ -29,7 +29,7 @@ func TestAuthenticateSuccessfulResponse(t *testing.T) {
 			testMethod(t, r, "POST")
 			testFormValues(t, r, values{
 				"grant_type":    "password",
-				"client_id":     creds.ClientId,
+				"client_id":     creds.ClientID,
 				"client_secret": creds.ClientSecret,
 				"username":      creds.Username,
 				"password":      creds.Password,
@@ -65,13 +65,13 @@ func TestAuthenticateStatusOKButResponseIsMalformed(t *testing.T) {
 	defer tearDown()
 
 	creds := types.ClientCredentials{
-		ClientId:     "mock client id",
+		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
 	}
 	a := &authenticator{
-		baseUrl: server.URL,
+		baseURL: server.URL,
 		creds:   creds,
 	}
 
@@ -80,7 +80,7 @@ func TestAuthenticateStatusOKButResponseIsMalformed(t *testing.T) {
 			testMethod(t, r, "POST")
 			testFormValues(t, r, values{
 				"grant_type":    "password",
-				"client_id":     creds.ClientId,
+				"client_id":     creds.ClientID,
 				"client_secret": creds.ClientSecret,
 				"username":      creds.Username,
 				"password":      creds.Password,
@@ -102,13 +102,13 @@ func TestAuthenticateHttpError(t *testing.T) {
 	defer tearDown()
 
 	creds := types.ClientCredentials{
-		ClientId:     "mock client id",
+		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
 	}
 	a := &authenticator{
-		baseUrl: server.URL,
+		baseURL: server.URL,
 		creds:   creds,
 	}
 
@@ -123,13 +123,13 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 	defer tearDown()
 
 	creds := types.ClientCredentials{
-		ClientId:     "mock client id",
+		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
 		Password:     "mock password",
 	}
 	a := &authenticator{
-		baseUrl: server.URL,
+		baseURL: server.URL,
 		creds:   creds,
 	}
 

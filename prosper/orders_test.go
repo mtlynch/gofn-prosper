@@ -10,7 +10,7 @@ import (
 
 var (
 	gotBidRequest []thin.BidRequest
-	gotOrderId    types.OrderId
+	gotOrderID    types.OrderID
 )
 
 func (c *mockRawClient) PlaceBid(br []thin.BidRequest) (thin.OrderResponse, error) {
@@ -18,8 +18,8 @@ func (c *mockRawClient) PlaceBid(br []thin.BidRequest) (thin.OrderResponse, erro
 	return c.orderResponse, c.err
 }
 
-func (c *mockRawClient) OrderStatus(orderId string) (thin.OrderResponse, error) {
-	gotOrderId = types.OrderId(orderId)
+func (c *mockRawClient) OrderStatus(orderID string) (thin.OrderResponse, error) {
+	gotOrderID = types.OrderID(orderID)
 	return c.orderResponse, c.err
 }
 
@@ -35,15 +35,15 @@ func (p *mockOrderParser) Parse(r thin.OrderResponse) (types.OrderResponse, erro
 }
 
 const (
-	listingIdA = 123
-	listingIdB = 456
+	listingIDA = 123
+	listingIDB = 456
 	bidAmountA = 25.0
 	bidAmountB = 35.72
 )
 
 func TestPlaceBid(t *testing.T) {
 	var tests = []struct {
-		listingId           types.ListingNumber
+		listingID           types.ListingNumber
 		bidAmount           float64
 		wantBidRequest      []thin.BidRequest
 		rawOrderResponse    thin.OrderResponse
@@ -53,45 +53,45 @@ func TestPlaceBid(t *testing.T) {
 		wantErr             error
 	}{
 		{
-			listingId: listingIdA,
+			listingID: listingIDA,
 			bidAmount: bidAmountA,
 			wantBidRequest: []thin.BidRequest{
 				{
-					ListingId: listingIdA,
+					ListingID: listingIDA,
 					BidAmount: bidAmountA,
 				},
 			},
 			rawOrderResponse: thin.OrderResponse{
-				OrderId: "order_id_a",
+				OrderID: "order_id_a",
 			},
 			parsedOrderResponse: types.OrderResponse{
-				OrderId: "order_id_a",
+				OrderID: "order_id_a",
 			},
 		},
 		{
-			listingId: listingIdB,
+			listingID: listingIDB,
 			bidAmount: bidAmountB,
 			wantBidRequest: []thin.BidRequest{
 				{
-					ListingId: listingIdB,
+					ListingID: listingIDB,
 					BidAmount: bidAmountB,
 				},
 			},
 			rawOrderResponse: thin.OrderResponse{
-				OrderId: "order_id_b",
+				OrderID: "order_id_b",
 			},
 			parsedOrderResponse: types.OrderResponse{
-				OrderId: "order_id_b",
+				OrderID: "order_id_b",
 			},
 		},
 		{
-			listingId: listingIdA,
+			listingID: listingIDA,
 			bidAmount: bidAmountA,
 			clientErr: errMockRawClientFail,
 			wantErr:   errMockRawClientFail,
 		},
 		{
-			listingId: listingIdA,
+			listingID: listingIDA,
 			bidAmount: bidAmountA,
 			parserErr: errMockRawClientFail,
 			wantErr:   errMockRawClientFail,
@@ -110,7 +110,7 @@ func TestPlaceBid(t *testing.T) {
 			rawClient:   &mockRawClient,
 			orderParser: &mockParser,
 		}
-		got, err := c.PlaceBid(tt.listingId, tt.bidAmount)
+		got, err := c.PlaceBid(tt.listingID, tt.bidAmount)
 		if err != tt.wantErr {
 			t.Errorf("unexpected error from PlaceBid. got: %v, want: %v", err, tt.wantErr)
 		} else if tt.wantErr == nil {
@@ -128,13 +128,13 @@ func TestPlaceBid(t *testing.T) {
 }
 
 const (
-	orderIdA = "orderA"
-	orderIdB = "orderB"
+	orderIDA = "orderA"
+	orderIDB = "orderB"
 )
 
 func TestOrderStatus(t *testing.T) {
 	var tests = []struct {
-		orderId             types.OrderId
+		orderID             types.OrderID
 		rawOrderResponse    thin.OrderResponse
 		clientErr           error
 		parsedOrderResponse types.OrderResponse
@@ -142,30 +142,30 @@ func TestOrderStatus(t *testing.T) {
 		wantErr             error
 	}{
 		{
-			orderId: orderIdA,
+			orderID: orderIDA,
 			rawOrderResponse: thin.OrderResponse{
-				OrderId: orderIdA,
+				OrderID: orderIDA,
 			},
 			parsedOrderResponse: types.OrderResponse{
-				OrderId: orderIdA,
+				OrderID: orderIDA,
 			},
 		},
 		{
-			orderId: orderIdB,
+			orderID: orderIDB,
 			rawOrderResponse: thin.OrderResponse{
-				OrderId: orderIdB,
+				OrderID: orderIDB,
 			},
 			parsedOrderResponse: types.OrderResponse{
-				OrderId: orderIdB,
+				OrderID: orderIDB,
 			},
 		},
 		{
-			orderId:   orderIdA,
+			orderID:   orderIDA,
 			clientErr: errMockRawClientFail,
 			wantErr:   errMockRawClientFail,
 		},
 		{
-			orderId:   orderIdA,
+			orderID:   orderIDA,
 			parserErr: errMockRawClientFail,
 			wantErr:   errMockRawClientFail,
 		},
@@ -183,12 +183,12 @@ func TestOrderStatus(t *testing.T) {
 			rawClient:   &mockRawClient,
 			orderParser: &mockParser,
 		}
-		got, err := c.OrderStatus(tt.orderId)
+		got, err := c.OrderStatus(tt.orderID)
 		if err != tt.wantErr {
 			t.Errorf("unexpected error from OrderStatus. got: %v, want: %v", err, tt.wantErr)
 		} else if tt.wantErr == nil {
-			if gotOrderId != tt.orderId {
-				t.Errorf("unexpected order ID. got: %+v, want: %+v", gotOrderId, tt.orderId)
+			if gotOrderID != tt.orderID {
+				t.Errorf("unexpected order ID. got: %+v, want: %+v", gotOrderID, tt.orderID)
 			}
 			if !reflect.DeepEqual(mockParser.gotOrderResponse, tt.rawOrderResponse) {
 				t.Errorf("unexpected order response sent to parser. got: %+v, want: %+v", mockParser.gotOrderResponse, tt.rawOrderResponse)

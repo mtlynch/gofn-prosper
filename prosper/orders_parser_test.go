@@ -18,11 +18,11 @@ func TestOrderResponseParser(t *testing.T) {
 	}{
 		{
 			input: thin.OrderResponse{
-				OrderId: "eba54767-d3d6-4b91-a0ba-cafaeb551f63",
+				OrderID: "eba54767-d3d6-4b91-a0ba-cafaeb551f63",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 4891804,
+							ListingID: 4891804,
 							BidAmount: 25.0,
 						},
 						Status: "PENDING",
@@ -32,11 +32,11 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderDate:   "2016-03-25 00:18:04 +0000",
 			},
 			want: types.OrderResponse{
-				OrderId: "eba54767-d3d6-4b91-a0ba-cafaeb551f63",
+				OrderID: "eba54767-d3d6-4b91-a0ba-cafaeb551f63",
 				BidStatus: []types.BidStatus{
 					{
 						BidRequest: types.BidRequest{
-							ListingId: 4891804,
+							ListingID: 4891804,
 							BidAmount: 25.0,
 						},
 						Status: types.Pending,
@@ -50,11 +50,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						Status:          "INVESTED",
@@ -66,11 +66,11 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderDate:   "2015-09-17 19:54:58 +0000",
 			},
 			want: types.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []types.BidStatus{
 					{
 						BidRequest: types.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						BidAmountPlaced: 100.0,
@@ -86,11 +86,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 3211275,
+							ListingID: 3211275,
 							BidAmount: 50.0,
 						},
 						Status:          "EXPIRED",
@@ -102,11 +102,11 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderDate:   "2016-01-24 12:32:05 +0000",
 			},
 			want: types.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []types.BidStatus{
 					{
 						BidRequest: types.BidRequest{
-							ListingId: 3211275,
+							ListingID: 3211275,
 							BidAmount: 50.0,
 						},
 						BidAmountPlaced: 0.0,
@@ -122,11 +122,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						Status:          "invalid bid status",
@@ -142,11 +142,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						Status:          "INVESTED",
@@ -162,11 +162,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						Status:          "INVESTED",
@@ -182,11 +182,11 @@ func TestOrderResponseParser(t *testing.T) {
 		},
 		{
 			input: thin.OrderResponse{
-				OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 				BidStatus: []thin.BidStatus{
 					{
 						BidRequest: thin.BidRequest{
-							ListingId: 2211270,
+							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						Status:          "INVESTED",

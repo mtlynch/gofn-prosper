@@ -27,7 +27,7 @@ func (p defaultOrderParser) Parse(r thin.OrderResponse) (types.OrderResponse, er
 		return types.OrderResponse{}, err
 	}
 	return types.OrderResponse{
-		OrderId:     types.OrderId(r.OrderId),
+		OrderID:     types.OrderID(r.OrderID),
 		BidStatus:   bidStatus,
 		OrderStatus: orderStatus,
 		OrderDate:   orderDate,
@@ -56,7 +56,7 @@ func parseBidStatus(s thin.BidStatus) (types.BidStatus, error) {
 	}
 	return types.BidStatus{
 		BidRequest: types.BidRequest{
-			ListingId: types.ListingNumber(s.ListingId),
+			ListingID: types.ListingNumber(s.ListingID),
 			BidAmount: s.BidAmount,
 		},
 		Status:          bidStatus,

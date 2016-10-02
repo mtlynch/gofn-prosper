@@ -17,18 +17,18 @@ import (
 	"github.com/mtlynch/gofn-prosper/prosper/auth"
 )
 
-const baseProsperUrl = "https://api.prosper.com/v1"
+const baseProsperURL = "https://api.prosper.com/v1"
 
 // Client is a client that communicates with the Prosper REST APIs.
 type Client struct {
-	baseUrl      string
+	baseURL      string
 	tokenManager auth.TokenManager
 }
 
 // NewClient creates a new Client instance with the given token manager.
 func NewClient(t auth.TokenManager) Client {
 	return Client{
-		baseUrl:      baseProsperUrl,
+		baseURL:      baseProsperURL,
 		tokenManager: t,
 	}
 }
@@ -74,8 +74,8 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	return nil
 }
 
-// RawApiHandler is a thin implementation of the Prosper REST APIs.
-type RawApiHandler interface {
+// RawAPIHandler is a thin implementation of the Prosper REST APIs.
+type RawAPIHandler interface {
 	Accounts() (AccountsResponse, error)
 	Notes(offset, limit int) (NotesResponse, error)
 	Search(SearchParams) (SearchResponse, error)

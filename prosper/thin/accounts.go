@@ -17,7 +17,7 @@ type AccountsResponse struct {
 	LastDepositDate                     string  `json:"last_deposit_date"`
 	LastWithdrawAmount                  float64 `json:"last_withdraw_amount"`
 	LastWithdrawDate                    string  `json:"last_withdraw_date"`
-	ExternalUserId                      string  `json:"external_user_id"`
+	ExternalUserID                      string  `json:"external_user_id"`
 }
 
 // Accounts queries the Propser API for properties of the user's account,
@@ -25,7 +25,7 @@ type AccountsResponse struct {
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
 func (c Client) Accounts() (response AccountsResponse, err error) {
-	err = c.DoRequest("GET", c.baseUrl+"/accounts/prosper/", nil, &response)
+	err = c.DoRequest("GET", c.baseURL+"/accounts/prosper/", nil, &response)
 	if err != nil {
 		return AccountsResponse{}, err
 	}

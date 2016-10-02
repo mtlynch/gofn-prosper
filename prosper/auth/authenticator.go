@@ -12,7 +12,7 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-const baseProsperUrl = "https://api.prosper.com/v1"
+const baseProsperURL = "https://api.prosper.com/v1"
 
 // ProsperAuthenticator authenticates to Prosper to retrieve a raw OAuth
 // response.
@@ -21,7 +21,7 @@ type ProsperAuthenticator interface {
 }
 
 type authenticator struct {
-	baseUrl string
+	baseURL string
 	creds   types.ClientCredentials
 }
 
@@ -29,7 +29,7 @@ type authenticator struct {
 // given Prosper credentials.
 func NewAuthenticator(creds types.ClientCredentials) ProsperAuthenticator {
 	return &authenticator{
-		baseUrl: baseProsperUrl,
+		baseURL: baseProsperURL,
 		creds:   creds,
 	}
 }
@@ -44,10 +44,10 @@ type oauthResponse struct {
 // Authenticate authenticates to the Prosper API server and retrieves a raw
 // OAuth response.
 func (c authenticator) Authenticate() (response oauthResponse, err error) {
-	resp, err := http.PostForm(c.baseUrl+"/security/oauth/token",
+	resp, err := http.PostForm(c.baseURL+"/security/oauth/token",
 		url.Values{
 			"grant_type":    {"password"},
-			"client_id":     {c.creds.ClientId},
+			"client_id":     {c.creds.ClientID},
 			"client_secret": {c.creds.ClientSecret},
 			"username":      {c.creds.Username},
 			"password":      {c.creds.Password},

@@ -36,7 +36,7 @@ func TestPlaceBidSuccessfulResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	got, err := client.PlaceBid([]BidRequest{
@@ -47,11 +47,11 @@ func TestPlaceBidSuccessfulResponse(t *testing.T) {
 	}
 
 	want := OrderResponse{
-		OrderId: "067e6162-3b6f-4ae2-a171-2470b63dff00",
+		OrderID: "067e6162-3b6f-4ae2-a171-2470b63dff00",
 		BidStatus: []BidStatus{
 			{
 				BidRequest: BidRequest{
-					ListingId: 215032,
+					ListingID: 215032,
 					BidAmount: 32.0,
 				},
 				Status: "PENDING",
@@ -83,7 +83,7 @@ func TestPlaceBidServerError(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	errWant := errors.New(`request failed: 500 Internal Server Error - { "code":"SYS0001", "message":"Application Error" }`)
@@ -127,7 +127,7 @@ func TestOrderStatusSuccessfulResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	got, err := client.OrderStatus("90cf709d-81d6-416a-89f2-ba6ab8146ef2")
@@ -136,11 +136,11 @@ func TestOrderStatusSuccessfulResponse(t *testing.T) {
 	}
 
 	want := OrderResponse{
-		OrderId: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
+		OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
 		BidStatus: []BidStatus{
 			{
 				BidRequest: BidRequest{
-					ListingId: 2211270,
+					ListingID: 2211270,
 					BidAmount: 100.0,
 				},
 				Status:          "INVESTED",
@@ -173,7 +173,7 @@ func TestOrderStatusFailedResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	errWant := errors.New(`request failed: 500 Internal Server Error - { "code":"SYS0001", "message":"Application Error" }`)

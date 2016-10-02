@@ -33,7 +33,7 @@ func TestAccountsSuccessfulResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	got, err := client.Accounts()
@@ -71,7 +71,7 @@ func TestAccountsErrorResponse(t *testing.T) {
 		},
 	)
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	_, err := client.Accounts()

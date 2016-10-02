@@ -69,7 +69,7 @@ type Note struct {
 	IsSold                               bool
 	LateFeesPaidProRataShare             float64
 	ListingNumber                        ListingNumber
-	LoanNoteId                           string
+	LoanNoteID                           string
 	LoanNumber                           int64
 	NextPaymentDueAmountProRataShare     float64
 	NextPaymentDueDate                   time.Time
