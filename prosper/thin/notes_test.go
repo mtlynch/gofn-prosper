@@ -86,7 +86,7 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	got, err := client.Notes(0, 25)
@@ -115,7 +115,7 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 				GroupLeaderAward:                     0,
 				ServiceFeesPaidProRataShare:          -0.13544,
 				ProsperFeesPaidProRataShare:          0,
-				LoanNoteId:                           "7735-205",
+				LoanNoteID:                           "7735-205",
 				ListingNumber:                        93874,
 				NoteOwnershipAmount:                  50,
 				NoteSaleGrossAmountReceived:          0,
@@ -145,7 +145,7 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 				GroupLeaderAward:                     0,
 				ServiceFeesPaidProRataShare:          -0.019167,
 				ProsperFeesPaidProRataShare:          0,
-				LoanNoteId:                           "7772-64",
+				LoanNoteID:                           "7772-64",
 				ListingNumber:                        92569,
 				NoteOwnershipAmount:                  50,
 				NoteSaleGrossAmountReceived:          0,
@@ -176,7 +176,7 @@ func TestNotesErrorResponse(t *testing.T) {
 		},
 	)
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	_, err := client.Notes(0, 25)

@@ -44,7 +44,7 @@ func (p defaultNoteParser) Parse(r thin.NoteResult) (types.Note, error) {
 		IsSold: r.IsSold,
 		LateFeesPaidProRataShare:         r.LateFeesPaidProRataShare,
 		ListingNumber:                    types.ListingNumber(r.ListingNumber),
-		LoanNoteId:                       r.LoanNoteId,
+		LoanNoteID:                       r.LoanNoteID,
 		LoanNumber:                       r.LoanNumber,
 		NextPaymentDueAmountProRataShare: r.NextPaymentDueAmountProRataShare,
 		NextPaymentDueDate:               nextPaymentDueDate,

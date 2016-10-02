@@ -267,7 +267,7 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 	)
 
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	got, err := client.Search(SearchParams{
@@ -313,7 +313,7 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 				BankcardUtilization:                       0.32,
 				InstallmentBalance:                        0,
 				InvestmentTypeid:                          1,
-				ListingCategoryId:                         14,
+				ListingCategoryID:                         14,
 				BorrowerCity:                              "PASADENA",
 				BorrowerState:                             "MD",
 				IncomeRangeDescription:                    "$25,000-49,999",
@@ -410,7 +410,7 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 				BankcardUtilization:                       0.76,
 				InstallmentBalance:                        0,
 				InvestmentTypeid:                          1,
-				ListingCategoryId:                         7,
+				ListingCategoryID:                         7,
 				BorrowerCity:                              "HILO",
 				BorrowerState:                             "HI",
 				IncomeRangeDescription:                    "$50,000-74,999",
@@ -507,7 +507,7 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 				BankcardUtilization:                       0.91,
 				InstallmentBalance:                        29479,
 				InvestmentTypeid:                          1,
-				ListingCategoryId:                         1,
+				ListingCategoryID:                         1,
 				BorrowerCity:                              "LOGAN",
 				BorrowerState:                             "UT",
 				IncomeRangeDescription:                    "$25,000-49,999",
@@ -592,7 +592,7 @@ func TestSearchFailedResponse(t *testing.T) {
 		},
 	)
 	client := Client{
-		baseUrl:      server.URL,
+		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
 	_, err := client.Search(SearchParams{

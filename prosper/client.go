@@ -9,9 +9,9 @@ import (
 
 // Client is a Prosper client that communicates with the Prosper HTTP endpoints.
 type Client struct {
-	rawClient     thin.RawApiHandler
+	rawClient     thin.RawAPIHandler
 	ap            accountsParser
-	nrp           notesResponseParser
+	nrp           NotesResponseParser
 	listingParser listingParser
 	orderParser   orderParser
 }

@@ -9,7 +9,7 @@ type (
 	// BidRequest represents the JSON object passed to PlaceBid to place an order
 	// for a listing.
 	BidRequest struct {
-		ListingId int64   `json:"listing_id"`
+		ListingID int64   `json:"listing_id"`
 		BidAmount float64 `json:"bid_amount"`
 	}
 
@@ -31,7 +31,7 @@ type (
 	OrderResponse struct {
 		//TODO: Add support for effective_yield, estimated_loss, estimated_return,
 		// source
-		OrderId     string      `json:"order_id"`
+		OrderID     string      `json:"order_id"`
 		BidStatus   []BidStatus `json:"bid_requests"`
 		OrderStatus string      `json:"order_status"`
 		OrderDate   string      `json:"order_date"`
@@ -46,7 +46,7 @@ func (c Client) PlaceBid(br []BidRequest) (response OrderResponse, err error) {
 	if err != nil {
 		return OrderResponse{}, err
 	}
-	err = c.DoRequest("POST", c.baseUrl+"/orders/", bytes.NewReader(reqBody), &response)
+	err = c.DoRequest("POST", c.baseURL+"/orders/", bytes.NewReader(reqBody), &response)
 	if err != nil {
 		return OrderResponse{}, err
 	}
@@ -56,8 +56,8 @@ func (c Client) PlaceBid(br []BidRequest) (response OrderResponse, err error) {
 // OrderStatus retrieves the status of the given Propser Order ID. Wraps the
 // Prosper /orders/{order_id}/listings API described at:
 // https://developers.prosper.com/docs/investor/orders-api/
-func (c Client) OrderStatus(orderId string) (response OrderResponse, err error) {
-	err = c.DoRequest("GET", c.baseUrl+"/orders/"+orderId, nil, &response)
+func (c Client) OrderStatus(orderID string) (response OrderResponse, err error) {
+	err = c.DoRequest("GET", c.baseURL+"/orders/"+orderID, nil, &response)
 	if err != nil {
 		return OrderResponse{}, err
 	}

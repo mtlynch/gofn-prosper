@@ -5,7 +5,8 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-type notesResponseParser interface {
+// NotesResponseParser parses Prosper notes into native typed Notes.
+type NotesResponseParser interface {
 	Parse(thin.NotesResponse) (types.NotesResponse, error)
 }
 
@@ -14,7 +15,7 @@ type defaultNotesResponseParser struct {
 }
 
 // NewNotesResponseParser creates a new parser for Notes API responses.
-func NewNotesResponseParser() notesResponseParser {
+func NewNotesResponseParser() NotesResponseParser {
 	return defaultNotesResponseParser{
 		np: defaultNoteParser{},
 	}

@@ -70,7 +70,7 @@ type (
 		LenderIndicator                           int64   `json:"lender_indicator"`
 		LenderYield                               float64 `json:"lender_yield"`
 		ListingAmount                             float64 `json:"listing_amount"`
-		ListingCategoryId                         int64   `json:"listing_category_id"`
+		ListingCategoryID                         int64   `json:"listing_category_id"`
 		ListingCreationDate                       string  `json:"listing_creation_date"`
 		ListingEndDate                            string  `json:"listing_end_date"`
 		ListingMonthlyPayment                     float64 `json:"listing_monthly_payment"`
@@ -139,7 +139,7 @@ type (
 // https://developers.prosper.com/docs/investor/searchlistings-api/
 func (c Client) Search(p SearchParams) (response SearchResponse, err error) {
 	queryString := searchParamsToQueryString(p)
-	err = c.DoRequest("GET", c.baseUrl+"/search/listings/?"+queryString, nil, &response)
+	err = c.DoRequest("GET", c.baseURL+"/search/listings/?"+queryString, nil, &response)
 	if err != nil {
 		return SearchResponse{}, err
 	}

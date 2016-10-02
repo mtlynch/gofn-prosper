@@ -38,7 +38,7 @@ const (
 
 // BidRequest represents an order for a given Prosper listing.
 type BidRequest struct {
-	ListingId ListingNumber
+	ListingID ListingNumber
 	BidAmount float64
 }
 
@@ -62,13 +62,13 @@ const (
 	OrderCompleted
 )
 
-// OrderId is the unique identifier associated with a Prosper order request.
-type OrderId string
+// OrderID is the unique identifier associated with a Prosper order request.
+type OrderID string
 
 // OrderResponse represents the response from the Prosper Order APIs, defined
 // at: https://developers.prosper.com/docs/investor/orders-api/
 type OrderResponse struct {
-	OrderId     OrderId
+	OrderID     OrderID
 	BidStatus   []BidStatus
 	OrderStatus OrderStatus
 	OrderDate   time.Time

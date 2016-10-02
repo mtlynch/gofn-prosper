@@ -24,7 +24,7 @@ type (
 		DebtSaleProceedsReceivedProRataShare float64 `json:"debt_sale_proceeds_received_pro_rata_share"`
 		NextPaymentDueAmountProRataShare     float64 `json:"next_payment_due_amount_pro_rata_share"`
 		NextPaymentDueDate                   string  `json:"next_payment_due_date"`
-		LoanNoteId                           string  `json:"loan_note_id"`
+		LoanNoteID                           string  `json:"loan_note_id"`
 		ListingNumber                        int64   `json:"listing_number"`
 		NoteOwnershipAmount                  float64 `json:"note_ownership_amount"`
 		NoteSaleGrossAmountReceived          float64 `json:"note_sale_gross_amount_received"`
@@ -49,7 +49,7 @@ type (
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/notes-api/
 func (c Client) Notes(offset, limit int) (response NotesResponse, err error) {
-	url := fmt.Sprintf("%s/notes/?offset=%d&limit=%d", c.baseUrl, offset, limit)
+	url := fmt.Sprintf("%s/notes/?offset=%d&limit=%d", c.baseURL, offset, limit)
 	err = c.DoRequest("GET", url, nil, &response)
 	if err != nil {
 		return NotesResponse{}, err

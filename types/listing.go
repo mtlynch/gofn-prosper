@@ -106,13 +106,13 @@ type Listing struct {
 	InquiriesLast6Months                      int64
 	InstallmentBalance                        float64
 	InvestmentTypeDescription                 string
-	InvestmentTypeId                          int64 //TODO: Parse this
+	InvestmentTypeID                          int64 //TODO: Parse this
 	IsHomeowner                               bool
 	LastUpdatedDate                           time.Time
 	LenderIndicator                           int64 //TODO: Parse this
 	LenderYield                               float64
 	ListingAmount                             float64
-	ListingCategoryId                         int64
+	ListingCategoryID                         int64
 	ListingCreationDate                       time.Time
 	ListingEndDate                            time.Time
 	ListingMonthlyPayment                     float64
