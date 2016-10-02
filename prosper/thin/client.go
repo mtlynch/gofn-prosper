@@ -1,3 +1,8 @@
+// Package thin is a very thin client implementation of the Prosper REST APIs.
+// It differs from the higher level "prosper" package in that this package
+// performs minimal parsing and type conversion on the raw JSON strings that the
+// Prosper REST APIs return, while the "prosper" package parses the responses
+// into native types.
 package thin
 
 import (
@@ -14,11 +19,13 @@ import (
 
 const baseProsperUrl = "https://api.prosper.com/v1"
 
+// Client is a client that communicates with the Prosper REST APIs.
 type Client struct {
 	baseUrl      string
 	tokenManager auth.TokenManager
 }
 
+// NewClient creates a new Client instance with the given token manager.
 func NewClient(t auth.TokenManager) Client {
 	return Client{
 		baseUrl:      baseProsperUrl,
@@ -26,6 +33,8 @@ func NewClient(t auth.TokenManager) Client {
 	}
 }
 
+// DoRequest performs a single HTTP request against the Prosper server and
+// returns the result of the request.
 func (c Client) DoRequest(method, urlStr string, body io.Reader, response interface{}) error {
 	req, err := http.NewRequest(method, urlStr, body)
 	if err != nil {
@@ -66,6 +75,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	return nil
 }
 
+// RawApiHandler is a thin implementation of the Prosper REST APIs.
 type RawApiHandler interface {
 	Accounts() (AccountsResponse, error)
 	Notes(offset, limit int) (NotesResponse, error)
