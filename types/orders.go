@@ -65,6 +65,24 @@ const (
 // OrderID is the unique identifier associated with a Prosper order request.
 type OrderID string
 
+// OrderIDs is a slice of OrderID objects.
+type OrderIDs []OrderID
+
+// Len returns the length of an OrderID slice.
+func (slice OrderIDs) Len() int {
+	return len(slice)
+}
+
+// Less returns whether OrderID i is less than OrderID j.
+func (slice OrderIDs) Less(i, j int) bool {
+	return slice[i] < slice[j]
+}
+
+// Swap swaps the position of two elements in an OrderIDs slice.
+func (slice OrderIDs) Swap(i, j int) {
+	slice[i], slice[j] = slice[j], slice[i]
+}
+
 // OrderResponse represents the response from the Prosper Order APIs, defined
 // at: https://developers.prosper.com/docs/investor/orders-api/
 type OrderResponse struct {
