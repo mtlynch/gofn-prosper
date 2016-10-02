@@ -56,6 +56,7 @@ type BidStatus struct {
 // https://developers.prosper.com/docs/investor/orders-api/
 type OrderStatus int8
 
+// Set of possible OrderStatus values.
 const (
 	OrderInProgress OrderStatus = iota
 	OrderCompleted

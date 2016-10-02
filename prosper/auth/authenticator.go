@@ -1,3 +1,6 @@
+// Package auth provides APIs for authenticating to Prosper. This includes
+// authenticating to Prosper using the user's credentials as well as managing
+// and refreshing the user's OAuth token.
 package auth
 
 import (

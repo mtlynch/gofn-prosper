@@ -63,9 +63,8 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 		if body, err := ioutil.ReadAll(resp.Body); err == nil {
 			msgCleaned := regexp.MustCompile(`\n\s*`).ReplaceAllString(string(body), " ")
 			return errors.New("request failed: " + resp.Status + " -" + msgCleaned)
-		} else {
-			return errors.New("request failed: " + resp.Status)
 		}
+		return errors.New("request failed: " + resp.Status)
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(response)
