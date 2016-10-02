@@ -13,12 +13,14 @@ type defaultNotesResponseParser struct {
 	np noteParser
 }
 
+// NewNotesResponseParser creates a new parser for Notes API responses.
 func NewNotesResponseParser() notesResponseParser {
 	return defaultNotesResponseParser{
 		np: defaultNoteParser{},
 	}
 }
 
+// Parse parses a thin.NotesResponse into the richer types.NotesResponse.
 func (p defaultNotesResponseParser) Parse(r thin.NotesResponse) (types.NotesResponse, error) {
 	var notes []types.Note
 	for _, nRaw := range r.Result {
