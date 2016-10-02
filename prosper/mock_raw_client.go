@@ -15,4 +15,4 @@ type mockRawClient struct {
 	err              error
 }
 
-var mockRawClientErr = errors.New("mock raw client error")
+var errMockRawClientFail = errors.New("mock raw client error")
