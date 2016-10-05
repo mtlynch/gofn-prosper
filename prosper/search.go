@@ -30,31 +30,39 @@ type (
 		Filter                  SearchFilter
 	}
 
+	// SearchResponse represents the full response from the Search API, documented
+	// at: https://developers.prosper.com/docs/investor/searchlistings-api/
+	SearchResponse struct {
+		Results     []types.Listing
+		ResultCount int
+		TotalCount  int
+	}
+
 	// ListingSearcher is an interface that supports the Search API for active
 	// Prosper listings.
 	ListingSearcher interface {
-		Search(SearchParams) (types.SearchResponse, error)
+		Search(SearchParams) (SearchResponse, error)
 	}
 )
 
 // Search queries Prosper for current listings that match specified search
 // parameters. Search implements the REST API described at:
 // https://developers.prosper.com/docs/investor/searchlistings-api/
-func (c Client) Search(p SearchParams) (response types.SearchResponse, err error) {
+func (c Client) Search(p SearchParams) (response SearchResponse, err error) {
 	rawResponse, err := c.rawClient.Search(searchParamsToThinType(p))
 	if err != nil {
-		return types.SearchResponse{}, err
+		return SearchResponse{}, err
 	}
 	var results []types.Listing
 	for _, lRaw := range rawResponse.Results {
 		l, err := c.listingParser.Parse(lRaw)
 		if err != nil {
 			log.Printf("failed to parse listing. err: %v, listing: %+v", err, lRaw)
-			return types.SearchResponse{}, err
+			return SearchResponse{}, err
 		}
 		results = append(results, l)
 	}
-	return types.SearchResponse{
+	return SearchResponse{
 		Results:     results,
 		ResultCount: rawResponse.ResultCount,
 		TotalCount:  rawResponse.TotalCount,
