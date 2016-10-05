@@ -6,13 +6,12 @@ import (
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func TestOrderResponseParser(t *testing.T) {
 	var tests = []struct {
 		input         thin.OrderResponse
-		want          types.OrderResponse
+		want          OrderResponse
 		expectSuccess bool
 		msg           string
 	}{
@@ -31,18 +30,18 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderStatus: "IN_PROGRESS",
 				OrderDate:   "2016-03-25 00:18:04 +0000",
 			},
-			want: types.OrderResponse{
+			want: OrderResponse{
 				OrderID: "eba54767-d3d6-4b91-a0ba-cafaeb551f63",
-				BidStatus: []types.BidStatus{
+				BidStatus: []BidStatus{
 					{
-						BidRequest: types.BidRequest{
+						BidRequest: BidRequest{
 							ListingID: 4891804,
 							BidAmount: 25.0,
 						},
-						Status: types.Pending,
+						Status: Pending,
 					},
 				},
-				OrderStatus: types.OrderInProgress,
+				OrderStatus: OrderInProgress,
 				OrderDate:   time.Date(2016, 03, 25, 0, 18, 04, 0, time.UTC),
 			},
 			expectSuccess: true,
@@ -65,20 +64,20 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderStatus: "COMPLETED",
 				OrderDate:   "2015-09-17 19:54:58 +0000",
 			},
-			want: types.OrderResponse{
+			want: OrderResponse{
 				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
-				BidStatus: []types.BidStatus{
+				BidStatus: []BidStatus{
 					{
-						BidRequest: types.BidRequest{
+						BidRequest: BidRequest{
 							ListingID: 2211270,
 							BidAmount: 100.0,
 						},
 						BidAmountPlaced: 100.0,
-						Status:          types.Invested,
-						Result:          types.BidSucceeded,
+						Status:          Invested,
+						Result:          BidSucceeded,
 					},
 				},
-				OrderStatus: types.OrderCompleted,
+				OrderStatus: OrderCompleted,
 				OrderDate:   time.Date(2015, 9, 17, 19, 54, 58, 0, time.UTC),
 			},
 			expectSuccess: true,
@@ -101,20 +100,20 @@ func TestOrderResponseParser(t *testing.T) {
 				OrderStatus: "COMPLETED",
 				OrderDate:   "2016-01-24 12:32:05 +0000",
 			},
-			want: types.OrderResponse{
+			want: OrderResponse{
 				OrderID: "90cf709d-81d6-416a-89f2-ba6ab8146ef2",
-				BidStatus: []types.BidStatus{
+				BidStatus: []BidStatus{
 					{
-						BidRequest: types.BidRequest{
+						BidRequest: BidRequest{
 							ListingID: 3211275,
 							BidAmount: 50.0,
 						},
 						BidAmountPlaced: 0.0,
-						Status:          types.Expired,
-						Result:          types.InsufficientFunds,
+						Status:          Expired,
+						Result:          InsufficientFunds,
 					},
 				},
-				OrderStatus: types.OrderCompleted,
+				OrderStatus: OrderCompleted,
 				OrderDate:   time.Date(2016, 1, 24, 12, 32, 5, 0, time.UTC),
 			},
 			expectSuccess: true,

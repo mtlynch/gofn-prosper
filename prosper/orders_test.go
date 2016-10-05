@@ -2,6 +2,7 @@ package prosper
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
@@ -10,7 +11,7 @@ import (
 
 var (
 	gotBidRequest []thin.BidRequest
-	gotOrderID    types.OrderID
+	gotOrderID    OrderID
 )
 
 func (c *mockRawClient) PlaceBid(br []thin.BidRequest) (thin.OrderResponse, error) {
@@ -19,17 +20,17 @@ func (c *mockRawClient) PlaceBid(br []thin.BidRequest) (thin.OrderResponse, erro
 }
 
 func (c *mockRawClient) OrderStatus(orderID string) (thin.OrderResponse, error) {
-	gotOrderID = types.OrderID(orderID)
+	gotOrderID = OrderID(orderID)
 	return c.orderResponse, c.err
 }
 
 type mockOrderParser struct {
 	gotOrderResponse thin.OrderResponse
-	orderResponse    types.OrderResponse
+	orderResponse    OrderResponse
 	err              error
 }
 
-func (p *mockOrderParser) Parse(r thin.OrderResponse) (types.OrderResponse, error) {
+func (p *mockOrderParser) Parse(r thin.OrderResponse) (OrderResponse, error) {
 	p.gotOrderResponse = r
 	return p.orderResponse, p.err
 }
@@ -48,7 +49,7 @@ func TestPlaceBid(t *testing.T) {
 		wantBidRequest      []thin.BidRequest
 		rawOrderResponse    thin.OrderResponse
 		clientErr           error
-		parsedOrderResponse types.OrderResponse
+		parsedOrderResponse OrderResponse
 		parserErr           error
 		wantErr             error
 	}{
@@ -64,7 +65,7 @@ func TestPlaceBid(t *testing.T) {
 			rawOrderResponse: thin.OrderResponse{
 				OrderID: "order_id_a",
 			},
-			parsedOrderResponse: types.OrderResponse{
+			parsedOrderResponse: OrderResponse{
 				OrderID: "order_id_a",
 			},
 		},
@@ -80,7 +81,7 @@ func TestPlaceBid(t *testing.T) {
 			rawOrderResponse: thin.OrderResponse{
 				OrderID: "order_id_b",
 			},
-			parsedOrderResponse: types.OrderResponse{
+			parsedOrderResponse: OrderResponse{
 				OrderID: "order_id_b",
 			},
 		},
@@ -134,10 +135,10 @@ const (
 
 func TestOrderStatus(t *testing.T) {
 	var tests = []struct {
-		orderID             types.OrderID
+		orderID             OrderID
 		rawOrderResponse    thin.OrderResponse
 		clientErr           error
-		parsedOrderResponse types.OrderResponse
+		parsedOrderResponse OrderResponse
 		parserErr           error
 		wantErr             error
 	}{
@@ -146,7 +147,7 @@ func TestOrderStatus(t *testing.T) {
 			rawOrderResponse: thin.OrderResponse{
 				OrderID: orderIDA,
 			},
-			parsedOrderResponse: types.OrderResponse{
+			parsedOrderResponse: OrderResponse{
 				OrderID: orderIDA,
 			},
 		},
@@ -155,7 +156,7 @@ func TestOrderStatus(t *testing.T) {
 			rawOrderResponse: thin.OrderResponse{
 				OrderID: orderIDB,
 			},
-			parsedOrderResponse: types.OrderResponse{
+			parsedOrderResponse: OrderResponse{
 				OrderID: orderIDB,
 			},
 		},
@@ -196,6 +197,28 @@ func TestOrderStatus(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.parsedOrderResponse) {
 				t.Errorf("unexpected parsed order response. got: %+v, want: %+v", got, tt.parsedOrderResponse)
 			}
+		}
+	}
+}
+
+func TestSortOrderIDs(t *testing.T) {
+	var tests = []struct {
+		unsorted OrderIDs
+		want     OrderIDs
+	}{
+		{
+			unsorted: OrderIDs{"id-a", "id-b", "id-c"},
+			want:     OrderIDs{"id-a", "id-b", "id-c"},
+		},
+		{
+			unsorted: OrderIDs{"id-c", "id-b", "id-a"},
+			want:     OrderIDs{"id-a", "id-b", "id-c"},
+		},
+	}
+	for _, tt := range tests {
+		sort.Sort(tt.unsorted)
+		if !reflect.DeepEqual(tt.unsorted, tt.want) {
+			t.Errorf("sorting order IDs failed, got: %v, want: %v", tt.unsorted, tt.want)
 		}
 	}
 }
