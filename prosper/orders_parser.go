@@ -8,54 +8,54 @@ import (
 )
 
 type orderParser interface {
-	Parse(thin.OrderResponse) (types.OrderResponse, error)
+	Parse(thin.OrderResponse) (OrderResponse, error)
 }
 
 type defaultOrderParser struct{}
 
-func (p defaultOrderParser) Parse(r thin.OrderResponse) (types.OrderResponse, error) {
+func (p defaultOrderParser) Parse(r thin.OrderResponse) (OrderResponse, error) {
 	orderDate, err := parseProsperTime(r.OrderDate)
 	if err != nil {
-		return types.OrderResponse{}, err
+		return OrderResponse{}, err
 	}
 	bidStatus, err := parseBidStatusSlice(r.BidStatus)
 	if err != nil {
-		return types.OrderResponse{}, err
+		return OrderResponse{}, err
 	}
 	orderStatus, err := parseOrderStatus(r.OrderStatus)
 	if err != nil {
-		return types.OrderResponse{}, err
+		return OrderResponse{}, err
 	}
-	return types.OrderResponse{
-		OrderID:     types.OrderID(r.OrderID),
+	return OrderResponse{
+		OrderID:     OrderID(r.OrderID),
 		BidStatus:   bidStatus,
 		OrderStatus: orderStatus,
 		OrderDate:   orderDate,
 	}, nil
 }
 
-func parseBidStatusSlice(status []thin.BidStatus) (parsed []types.BidStatus, err error) {
+func parseBidStatusSlice(status []thin.BidStatus) (parsed []BidStatus, err error) {
 	for _, s := range status {
 		sParsed, err := parseBidStatus(s)
 		if err != nil {
-			return []types.BidStatus{}, err
+			return []BidStatus{}, err
 		}
 		parsed = append(parsed, sParsed)
 	}
 	return parsed, nil
 }
 
-func parseBidStatus(s thin.BidStatus) (types.BidStatus, error) {
+func parseBidStatus(s thin.BidStatus) (BidStatus, error) {
 	bidStatus, err := parseBidStatusValue(s.Status)
 	if err != nil {
-		return types.BidStatus{}, err
+		return BidStatus{}, err
 	}
 	result, err := parseBidResult(s.BidResult)
 	if err != nil {
-		return types.BidStatus{}, err
+		return BidStatus{}, err
 	}
-	return types.BidStatus{
-		BidRequest: types.BidRequest{
+	return BidStatus{
+		BidRequest: BidRequest{
 			ListingID: types.ListingNumber(s.ListingID),
 			BidAmount: s.BidAmount,
 		},
@@ -65,11 +65,11 @@ func parseBidStatus(s thin.BidStatus) (types.BidStatus, error) {
 	}, nil
 }
 
-func parseBidStatusValue(status string) (types.BidStatusValue, error) {
-	stringToBidStatusValue := map[string]types.BidStatusValue{
-		"PENDING":  types.Pending,
-		"INVESTED": types.Invested,
-		"EXPIRED":  types.Expired,
+func parseBidStatusValue(status string) (BidStatusValue, error) {
+	stringToBidStatusValue := map[string]BidStatusValue{
+		"PENDING":  Pending,
+		"INVESTED": Invested,
+		"EXPIRED":  Expired,
 	}
 	parsed, ok := stringToBidStatusValue[status]
 	if !ok {
@@ -78,22 +78,22 @@ func parseBidStatusValue(status string) (types.BidStatusValue, error) {
 	return parsed, nil
 }
 
-func parseBidResult(result string) (types.BidResult, error) {
-	stringToBidResult := map[string]types.BidResult{
-		"":                                   types.NoBidResult,
-		"NONE":                               types.NoBidResult,
-		"AMOUNT_BID_TOO_HIGH":                types.AmountBidTooHigh,
-		"AMOUNT_BID_TOO_LOW":                 types.AmountBidTooLow,
-		"BID_FAILED":                         types.BidFailed,
-		"BID_SUCCEEDED":                      types.BidSucceeded,
-		"CANNOT_BID_ON_SELF":                 types.CannotBidOnSelf,
-		"INSUFFICIENT_FUNDS":                 types.InsufficientFunds,
-		"INTERNAL_ERROR":                     types.InternalError,
-		"INVESTMENT_ORDER_ALREADY_PROCESSED": types.InvestmentOrderAlreadyProcessed,
-		"LENDER_NOT_ELIGIBLE_TO_BID":         types.LenderNotEligibleToBid,
-		"LISTING_NOT_BIDDABLE":               types.ListingNotBiddable,
-		"SUITABILITY_REQUIREMENTS_NOT_MET":   types.SuitabilityRequirementsNotMet,
-		"PARTIAL_BID_SUCCEEDED":              types.PartialBidSucceeded,
+func parseBidResult(result string) (BidResult, error) {
+	stringToBidResult := map[string]BidResult{
+		"":                                   NoBidResult,
+		"NONE":                               NoBidResult,
+		"AMOUNT_BID_TOO_HIGH":                AmountBidTooHigh,
+		"AMOUNT_BID_TOO_LOW":                 AmountBidTooLow,
+		"BID_FAILED":                         BidFailed,
+		"BID_SUCCEEDED":                      BidSucceeded,
+		"CANNOT_BID_ON_SELF":                 CannotBidOnSelf,
+		"INSUFFICIENT_FUNDS":                 InsufficientFunds,
+		"INTERNAL_ERROR":                     InternalError,
+		"INVESTMENT_ORDER_ALREADY_PROCESSED": InvestmentOrderAlreadyProcessed,
+		"LENDER_NOT_ELIGIBLE_TO_BID":         LenderNotEligibleToBid,
+		"LISTING_NOT_BIDDABLE":               ListingNotBiddable,
+		"SUITABILITY_REQUIREMENTS_NOT_MET":   SuitabilityRequirementsNotMet,
+		"PARTIAL_BID_SUCCEEDED":              PartialBidSucceeded,
 	}
 	parsed, ok := stringToBidResult[result]
 	if !ok {
@@ -102,10 +102,10 @@ func parseBidResult(result string) (types.BidResult, error) {
 	return parsed, nil
 }
 
-func parseOrderStatus(status string) (types.OrderStatus, error) {
-	stringToOrderStatus := map[string]types.OrderStatus{
-		"IN_PROGRESS": types.OrderInProgress,
-		"COMPLETED":   types.OrderCompleted,
+func parseOrderStatus(status string) (OrderStatus, error) {
+	stringToOrderStatus := map[string]OrderStatus{
+		"IN_PROGRESS": OrderInProgress,
+		"COMPLETED":   OrderCompleted,
 	}
 	parsed, ok := stringToOrderStatus[status]
 	if !ok {
