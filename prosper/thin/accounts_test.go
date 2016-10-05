@@ -36,12 +36,12 @@ func TestAccountsSuccessfulResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	got, err := client.Accounts(AccountsParams{})
+	got, err := client.Accounts(AccountParams{})
 	if err != nil {
 		t.Fatalf("client.Accounts failed: %v", err)
 	}
 
-	want := AccountsResponse{
+	want := AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -74,7 +74,7 @@ func TestAccountsErrorResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	_, err := client.Accounts(AccountsParams{})
+	_, err := client.Accounts(AccountParams{})
 	if err == nil {
 		t.Fatal("client.Accounts should fail when server returns error")
 	}

@@ -2,17 +2,17 @@ package thin
 
 type (
 
-	// AccountsParams specifies the optional parameters to the Prosper accounts
+	// AccountParams specifies the optional parameters to the Prosper accounts
 	// API.
-	AccountsParams struct {
+	AccountParams struct {
 		// TODO(mtlynch): Implement support for "filters" and
 		// "suppress_in_flight_gross" parameters.
 	}
 
-	// AccountsResponse contains the response from the Accounts API in minimally
+	// AccountResponse contains the response from the Accounts API in minimally
 	// parsed form. This struct omits a few fields. See:
 	// https://github.com/mtlynch/gofn-prosper/issues/13
-	AccountsResponse struct {
+	AccountResponse struct {
 		AvailableCashBalance                float64 `json:"available_cash_balance"`
 		PendingInvestmentsPrimaryMarket     float64 `json:"pending_investments_primary_market"`
 		PendingInvestmentsSecondaryMarket   float64 `json:"pending_investments_secondary_market"`
@@ -34,10 +34,10 @@ type (
 // including balance information and note summaries. Accounts partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
-func (c Client) Accounts(AccountsParams) (response AccountsResponse, err error) {
+func (c Client) Accounts(AccountParams) (response AccountResponse, err error) {
 	err = c.DoRequest("GET", c.baseURL+"/accounts/prosper/", nil, &response)
 	if err != nil {
-		return AccountsResponse{}, err
+		return AccountResponse{}, err
 	}
 	return response, nil
 }

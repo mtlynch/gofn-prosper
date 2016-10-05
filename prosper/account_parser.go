@@ -5,13 +5,13 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-type accountsParser interface {
-	Parse(thin.AccountsResponse) (types.AccountInformation, error)
+type accountParser interface {
+	Parse(thin.AccountResponse) (types.AccountInformation, error)
 }
 
-type defaultAccountsParser struct{}
+type defaultAccountParser struct{}
 
-func (a defaultAccountsParser) Parse(r thin.AccountsResponse) (types.AccountInformation, error) {
+func (a defaultAccountParser) Parse(r thin.AccountResponse) (types.AccountInformation, error) {
 	lastDepositDate, err := parseProsperDate(r.LastDepositDate)
 	if err != nil {
 		return types.AccountInformation{}, err
