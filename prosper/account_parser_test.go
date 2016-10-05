@@ -9,8 +9,8 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-func TestAccountsParserParsesTimeCorrectly(t *testing.T) {
-	got, err := defaultAccountsParser{}.Parse(thin.AccountsResponse{
+func TestAccountParserParsesTimeCorrectly(t *testing.T) {
+	got, err := defaultAccountParser{}.Parse(thin.AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -48,8 +48,8 @@ func TestAccountsParserParsesTimeCorrectly(t *testing.T) {
 	}
 }
 
-func TestAccountsParserParsesCorrectlyWhenNoWithdrawsExist(t *testing.T) {
-	got, err := defaultAccountsParser{}.Parse(thin.AccountsResponse{
+func TestAccountParserParsesCorrectlyWhenNoWithdrawsExist(t *testing.T) {
+	got, err := defaultAccountParser{}.Parse(thin.AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -83,8 +83,8 @@ func TestAccountsParserParsesCorrectlyWhenNoWithdrawsExist(t *testing.T) {
 	}
 }
 
-func TestAccountsParserParsesCorrectlyWhenNoDepositsExist(t *testing.T) {
-	got, err := defaultAccountsParser{}.Parse(thin.AccountsResponse{
+func TestAccountParserParsesCorrectlyWhenNoDepositsExist(t *testing.T) {
+	got, err := defaultAccountParser{}.Parse(thin.AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -118,8 +118,8 @@ func TestAccountsParserParsesCorrectlyWhenNoDepositsExist(t *testing.T) {
 	}
 }
 
-func TestAccountsParserFailsOnInvalidLastDepositDate(t *testing.T) {
-	_, err := defaultAccountsParser{}.Parse(thin.AccountsResponse{
+func TestAccountParserFailsOnInvalidLastDepositDate(t *testing.T) {
+	_, err := defaultAccountParser{}.Parse(thin.AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -139,8 +139,8 @@ func TestAccountsParserFailsOnInvalidLastDepositDate(t *testing.T) {
 	}
 }
 
-func TestAccountsParserFailsOnInvalidLastWithdrawDate(t *testing.T) {
-	_, err := defaultAccountsParser{}.Parse(thin.AccountsResponse{
+func TestAccountParserFailsOnInvalidLastWithdrawDate(t *testing.T) {
+	_, err := defaultAccountParser{}.Parse(thin.AccountResponse{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,

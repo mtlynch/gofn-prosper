@@ -10,23 +10,23 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-func (c *mockRawClient) Accounts(thin.AccountsParams) (thin.AccountsResponse, error) {
+func (c *mockRawClient) Accounts(thin.AccountParams) (thin.AccountResponse, error) {
 	return c.accountsResponse, c.err
 }
 
-type mockAccountsParser struct {
-	accountsResponseGot thin.AccountsResponse
+type mockAccountParser struct {
+	accountsResponseGot thin.AccountResponse
 	accountInformation  types.AccountInformation
 	err                 error
 }
 
-func (p *mockAccountsParser) Parse(r thin.AccountsResponse) (types.AccountInformation, error) {
+func (p *mockAccountParser) Parse(r thin.AccountResponse) (types.AccountInformation, error) {
 	p.accountsResponseGot = r
 	return p.accountInformation, p.err
 }
 
 func TestAccountSuccess(t *testing.T) {
-	a := thin.AccountsResponse{
+	a := thin.AccountResponse{
 		LastDepositAmount: 250,
 		LastDepositDate:   "2015-10-05",
 	}
@@ -34,12 +34,12 @@ func TestAccountSuccess(t *testing.T) {
 		LastDepositAmount: 250,
 		LastDepositDate:   time.Date(2015, 10, 5, 0, 0, 0, 0, time.UTC),
 	}
-	parser := mockAccountsParser{accountInformation: want}
+	parser := mockAccountParser{accountInformation: want}
 	client := Client{
 		rawClient: &mockRawClient{accountsResponse: a},
 		ap:        &parser,
 	}
-	got, err := client.Account(AccountsParams{})
+	got, err := client.Account(AccountParams{})
 	if err != nil {
 		t.Errorf("Client.Account failed with %v", err)
 	}
@@ -52,28 +52,28 @@ func TestAccountSuccess(t *testing.T) {
 }
 
 func TestAccountFailsWhenRawClientFails(t *testing.T) {
-	parser := mockAccountsParser{}
+	parser := mockAccountParser{}
 	client := Client{
 		rawClient: &mockRawClient{err: errMockRawClientFail},
 		ap:        &parser,
 	}
-	_, err := client.Account(AccountsParams{})
+	_, err := client.Account(AccountParams{})
 	if err != errMockRawClientFail {
 		t.Errorf("Client.Account err got: %v, want: %v", err, errMockRawClientFail)
 	}
-	if !reflect.DeepEqual(parser.accountsResponseGot, thin.AccountsResponse{}) {
+	if !reflect.DeepEqual(parser.accountsResponseGot, thin.AccountResponse{}) {
 		t.Errorf("Client.Account should not attempt to parse when raw client fails.")
 	}
 }
 
 func TestAccountFailsWhenParserFails(t *testing.T) {
 	parserErr := errors.New("mock parser error")
-	parser := mockAccountsParser{err: parserErr}
+	parser := mockAccountParser{err: parserErr}
 	client := Client{
 		rawClient: &mockRawClient{},
 		ap:        &parser,
 	}
-	_, err := client.Account(AccountsParams{})
+	_, err := client.Account(AccountParams{})
 	if err != parserErr {
 		t.Errorf("Client.Account err got: %v, want: %v", err, parserErr)
 	}

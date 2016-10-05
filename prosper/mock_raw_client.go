@@ -7,7 +7,7 @@ import (
 )
 
 type mockRawClient struct {
-	accountsResponse thin.AccountsResponse
+	accountsResponse thin.AccountResponse
 	notesResponse    thin.NotesResponse
 	orderResponse    thin.OrderResponse
 	searchParams     thin.SearchParams
