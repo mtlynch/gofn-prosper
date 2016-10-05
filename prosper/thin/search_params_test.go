@@ -230,7 +230,7 @@ func TestSearchParamsToQueryString(t *testing.T) {
 	for _, tt := range tests {
 		got := searchParamsToQueryString(tt.p)
 		if got != tt.want {
-			t.Errorf("searchFilterToQueryString() got: %v, want: %v", got, tt.want)
+			t.Errorf("searchParamsToQueryString() got: %v, want: %v", got, tt.want)
 		}
 	}
 
