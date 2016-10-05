@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func (c *mockRawClient) Accounts(thin.AccountParams) (thin.AccountResponse, error) {
@@ -16,11 +15,11 @@ func (c *mockRawClient) Accounts(thin.AccountParams) (thin.AccountResponse, erro
 
 type mockAccountParser struct {
 	accountsResponseGot thin.AccountResponse
-	accountInformation  types.AccountInformation
+	accountInformation  AccountInformation
 	err                 error
 }
 
-func (p *mockAccountParser) Parse(r thin.AccountResponse) (types.AccountInformation, error) {
+func (p *mockAccountParser) Parse(r thin.AccountResponse) (AccountInformation, error) {
 	p.accountsResponseGot = r
 	return p.accountInformation, p.err
 }
@@ -30,7 +29,7 @@ func TestAccountSuccess(t *testing.T) {
 		LastDepositAmount: 250,
 		LastDepositDate:   "2015-10-05",
 	}
-	want := types.AccountInformation{
+	want := AccountInformation{
 		LastDepositAmount: 250,
 		LastDepositDate:   time.Date(2015, 10, 5, 0, 0, 0, 0, time.UTC),
 	}

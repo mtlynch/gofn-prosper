@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func TestAccountParserParsesTimeCorrectly(t *testing.T) {
@@ -25,7 +24,7 @@ func TestAccountParserParsesTimeCorrectly(t *testing.T) {
 		LastWithdrawAmount:                  5400,
 		LastWithdrawDate:                    "2015-10-02",
 	})
-	want := types.AccountInformation{
+	want := AccountInformation{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -62,7 +61,7 @@ func TestAccountParserParsesCorrectlyWhenNoWithdrawsExist(t *testing.T) {
 		LastDepositAmount:                   20000,
 		LastDepositDate:                     "2015-10-23",
 	})
-	want := types.AccountInformation{
+	want := AccountInformation{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
@@ -97,7 +96,7 @@ func TestAccountParserParsesCorrectlyWhenNoDepositsExist(t *testing.T) {
 		LastWithdrawAmount:                  5400,
 		LastWithdrawDate:                    "2015-10-02",
 	})
-	want := types.AccountInformation{
+	want := AccountInformation{
 		AvailableCashBalance:                22139.89,
 		PendingInvestmentsPrimaryMarket:     5700,
 		PendingInvestmentsSecondaryMarket:   0,
