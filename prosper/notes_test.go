@@ -10,8 +10,7 @@ import (
 )
 
 var (
-	gotOffset             int
-	gotLimit              int
+	gotNotesParams        thin.NotesParams
 	mockRawNotesResponseA = thin.NotesResponse{TotalCount: 25}
 	mockRawNotesResponseB = thin.NotesResponse{TotalCount: 50}
 	mockNotesResponseA    = types.NotesResponse{TotalCount: 25}
@@ -20,8 +19,7 @@ var (
 )
 
 func (c *mockRawClient) Notes(p thin.NotesParams) (thin.NotesResponse, error) {
-	gotOffset = p.Offset
-	gotLimit = p.Limit
+	gotNotesParams = p
 	return c.notesResponse, c.err
 }
 
@@ -38,37 +36,61 @@ func (p *mockNotesResponseParser) Parse(r thin.NotesResponse) (types.NotesRespon
 
 func TestNotes(t *testing.T) {
 	tests := []struct {
-		offset       int
-		limit        int
+		params       NotesParams
 		rawResponse  thin.NotesResponse
 		clientErr    error
 		parserResult types.NotesResponse
 		parserErr    error
 		want         types.NotesResponse
+		wantParams   thin.NotesParams
 		wantErr      error
 	}{
 		{
-			offset:    0,
-			limit:     25,
+			params: NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
+			wantParams: thin.NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
 			clientErr: errMockRawClientFail,
 			wantErr:   errMockRawClientFail,
 		},
 		{
-			offset:    0,
-			limit:     25,
+			params: NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
+			wantParams: thin.NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
 			parserErr: errMockParserFail,
 			wantErr:   errMockParserFail,
 		},
 		{
-			offset:       0,
-			limit:        25,
+			params: NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
+			wantParams: thin.NotesParams{
+				Offset: 0,
+				Limit:  25,
+			},
 			rawResponse:  mockRawNotesResponseA,
 			parserResult: mockNotesResponseA,
 			want:         mockNotesResponseA,
 		},
 		{
-			offset:       25,
-			limit:        75,
+			params: NotesParams{
+				Offset: 25,
+				Limit:  75,
+			},
+			wantParams: thin.NotesParams{
+				Offset: 25,
+				Limit:  75,
+			},
 			rawResponse:  mockRawNotesResponseB,
 			parserResult: mockNotesResponseB,
 			want:         mockNotesResponseB,
@@ -86,15 +108,12 @@ func TestNotes(t *testing.T) {
 			},
 			nrp: &parser,
 		}
-		got, err := client.Notes(tt.offset, tt.limit)
+		got, err := client.Notes(tt.params)
 		if err != tt.wantErr {
 			t.Errorf("unexpected failure from client.Notes. got: %v, want: %v", err, tt.wantErr)
 		}
-		if gotOffset != tt.offset {
-			t.Errorf("unexpected offset passed to raw client. got: %v, want: %v", gotOffset, tt.offset)
-		}
-		if gotLimit != tt.limit {
-			t.Errorf("unexpected limit passed to raw client. got: %v, want: %v", gotLimit, tt.limit)
+		if !reflect.DeepEqual(gotNotesParams, tt.wantParams) {
+			t.Errorf("unexpected params passed to raw client. got: %v, want: %v", gotNotesParams, tt.params)
 		}
 		if tt.wantErr != nil {
 			if !reflect.DeepEqual(got, tt.want) {
