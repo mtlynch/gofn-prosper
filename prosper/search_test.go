@@ -95,7 +95,7 @@ func TestSearch(t *testing.T) {
 		rawClientErr        error
 		parsedListings      []types.Listing
 		parseErrors         []error
-		want                types.SearchResponse
+		want                SearchResponse
 		wantErr             error
 		msg                 string
 	}{
@@ -112,7 +112,7 @@ func TestSearch(t *testing.T) {
 			},
 			parsedListings: []types.Listing{listingA},
 			parseErrors:    []error{nil},
-			want: types.SearchResponse{
+			want: SearchResponse{
 				Results:     []types.Listing{listingA},
 				ResultCount: 1,
 				TotalCount:  1,
@@ -153,7 +153,7 @@ func TestSearch(t *testing.T) {
 			},
 			parsedListings: []types.Listing{listingA},
 			parseErrors:    []error{nil},
-			want: types.SearchResponse{
+			want: SearchResponse{
 				Results:     []types.Listing{listingA},
 				ResultCount: 1,
 				TotalCount:  1,
@@ -168,7 +168,7 @@ func TestSearch(t *testing.T) {
 			},
 			parsedListings: []types.Listing{listingA, listingB},
 			parseErrors:    []error{nil, nil},
-			want: types.SearchResponse{
+			want: SearchResponse{
 				Results:     []types.Listing{listingA, listingB},
 				ResultCount: 2,
 				TotalCount:  2,
