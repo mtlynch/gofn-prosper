@@ -15,8 +15,7 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
 			testFormValues(t, r, values{
-				"offset": "0",
-				"limit":  "25",
+				"limit": "25",
 			})
 			fmt.Fprint(w, `{
    "result": [
@@ -89,7 +88,10 @@ func TestNotesSuccessfulResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	got, err := client.Notes(0, 25)
+	got, err := client.Notes(NotesParams{
+		Offset: 0,
+		Limit:  25,
+	})
 	if err != nil {
 		t.Fatalf("client.Notes failed: %v", err)
 	}
@@ -179,8 +181,48 @@ func TestNotesErrorResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	_, err := client.Notes(0, 25)
+	_, err := client.Notes(NotesParams{
+		Offset: 0,
+		Limit:  25,
+	})
 	if err == nil {
 		t.Fatal("client.Notes should fail when server returns error")
+	}
+}
+
+func TestNotesParamsToQueryString(t *testing.T) {
+	var tests = []struct {
+		p    NotesParams
+		want string
+	}{
+		{
+			p:    NotesParams{},
+			want: "",
+		},
+		{
+			p: NotesParams{
+				Offset: 25,
+			},
+			want: "offset=25",
+		},
+		{
+			p: NotesParams{
+				Limit: 46,
+			},
+			want: "limit=46",
+		},
+		{
+			p: NotesParams{
+				Offset: 55,
+				Limit:  7,
+			},
+			want: "offset=55&limit=7",
+		},
+	}
+	for _, tt := range tests {
+		got := notesParamsToQueryString(tt.p)
+		if got != tt.want {
+			t.Errorf("notesParamsToQueryString() got: %v, want: %v", got, tt.want)
+		}
 	}
 }

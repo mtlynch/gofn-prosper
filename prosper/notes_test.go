@@ -19,9 +19,9 @@ var (
 	errMockParserFail     = errors.New("mock parser error")
 )
 
-func (c *mockRawClient) Notes(offset, limit int) (thin.NotesResponse, error) {
-	gotOffset = offset
-	gotLimit = limit
+func (c *mockRawClient) Notes(p thin.NotesParams) (thin.NotesResponse, error) {
+	gotOffset = p.Offset
+	gotLimit = p.Limit
 	return c.notesResponse, c.err
 }
 

@@ -77,7 +77,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 // RawAPIHandler is a thin implementation of the Prosper REST APIs.
 type RawAPIHandler interface {
 	Accounts() (AccountsResponse, error)
-	Notes(offset, limit int) (NotesResponse, error)
+	Notes(NotesParams) (NotesResponse, error)
 	Search(SearchParams) (SearchResponse, error)
 	PlaceBid([]BidRequest) (OrderResponse, error)
 	OrderStatus(string) (OrderResponse, error)
