@@ -1,26 +1,23 @@
 package prosper
 
-import (
-	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
-)
+import "github.com/mtlynch/gofn-prosper/prosper/thin"
 
 type accountParser interface {
-	Parse(thin.AccountResponse) (types.AccountInformation, error)
+	Parse(thin.AccountResponse) (AccountInformation, error)
 }
 
 type defaultAccountParser struct{}
 
-func (a defaultAccountParser) Parse(r thin.AccountResponse) (types.AccountInformation, error) {
+func (a defaultAccountParser) Parse(r thin.AccountResponse) (AccountInformation, error) {
 	lastDepositDate, err := parseProsperDate(r.LastDepositDate)
 	if err != nil {
-		return types.AccountInformation{}, err
+		return AccountInformation{}, err
 	}
 	lastWithdrawDate, err := parseProsperDate(r.LastWithdrawDate)
 	if err != nil {
-		return types.AccountInformation{}, err
+		return AccountInformation{}, err
 	}
-	return types.AccountInformation{
+	return AccountInformation{
 		AvailableCashBalance:                r.AvailableCashBalance,
 		TotalPrincipalReceivedOnActiveNotes: r.TotalPrincipalReceivedOnActiveNotes,
 		OutstandingPrincipalOnActiveNotes:   r.OutstandingPrincipalOnActiveNotes,

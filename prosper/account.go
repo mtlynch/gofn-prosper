@@ -1,7 +1,10 @@
 package prosper
 
-import "github.com/mtlynch/gofn-prosper/prosper/thin"
-import "github.com/mtlynch/gofn-prosper/types"
+import (
+	"time"
+
+	"github.com/mtlynch/gofn-prosper/prosper/thin"
+)
 
 type (
 	// AccountParams contains the parameters to the Accounts API.
@@ -10,10 +13,28 @@ type (
 		// "suppress_in_flight_gross" parameters.
 	}
 
+	// AccountInformation contains the information about the user's Prosper
+	// account retrieved from the Account API.
+	AccountInformation struct {
+		AvailableCashBalance                float64
+		TotalPrincipalReceivedOnActiveNotes float64
+		OutstandingPrincipalOnActiveNotes   float64
+		LastWithdrawAmount                  float64
+		LastDepositAmount                   float64
+		LastDepositDate                     time.Time
+		PendingInvestmentsPrimaryMarket     float64
+		PendingInvestmentsSecondaryMarket   float64
+		PendingQuickInvestOrders            float64
+		TotalAmountInvestedOnActiveNotes    float64
+		TotalAccountValue                   float64
+		InflightGross                       float64
+		LastWithdrawDate                    time.Time
+	}
+
 	// Accounter supports the Account interface for retrieving user account
 	// information.
 	Accounter interface {
-		Account(AccountParams) (types.AccountInformation, error)
+		Account(AccountParams) (AccountInformation, error)
 	}
 )
 
@@ -21,10 +42,10 @@ type (
 // including balance information and note summaries. Accounts partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
-func (c Client) Account(AccountParams) (types.AccountInformation, error) {
+func (c Client) Account(AccountParams) (AccountInformation, error) {
 	rawResponse, err := c.rawClient.Accounts(thin.AccountParams{})
 	if err != nil {
-		return types.AccountInformation{}, err
+		return AccountInformation{}, err
 	}
 	return c.ap.Parse(rawResponse)
 }
