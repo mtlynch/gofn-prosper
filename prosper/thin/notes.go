@@ -1,8 +1,18 @@
 package thin
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type (
+	// NotesParams contains the parameters to the Notes API.
+	NotesParams struct {
+		Offset int
+		Limit  int
+		// TODO(mtlynch): Implement support for the sort_by parameter.
+	}
+
 	// NoteResult contains response information about a single Propser note in
 	// minimally parsed form.
 	NoteResult struct {
@@ -48,11 +58,23 @@ type (
 // Notes returns a subset of the notes that the user owns. Notes partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/notes-api/
-func (c Client) Notes(offset, limit int) (response NotesResponse, err error) {
-	url := fmt.Sprintf("%s/notes/?offset=%d&limit=%d", c.baseURL, offset, limit)
+func (c Client) Notes(p NotesParams) (response NotesResponse, err error) {
+	q := notesParamsToQueryString(p)
+	url := fmt.Sprintf("%s/notes/?%s", c.baseURL, q)
 	err = c.DoRequest("GET", url, nil, &response)
 	if err != nil {
 		return NotesResponse{}, err
 	}
 	return response, nil
+}
+
+func notesParamsToQueryString(p NotesParams) string {
+	var clauses []string
+	if p.Offset != 0 {
+		clauses = append(clauses, fmt.Sprintf("offset=%d", p.Offset))
+	}
+	if p.Limit != 0 {
+		clauses = append(clauses, fmt.Sprintf("limit=%d", p.Limit))
+	}
+	return strings.Join(clauses, "&")
 }
