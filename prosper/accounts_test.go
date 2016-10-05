@@ -10,7 +10,7 @@ import (
 	"github.com/mtlynch/gofn-prosper/types"
 )
 
-func (c *mockRawClient) Accounts() (thin.AccountsResponse, error) {
+func (c *mockRawClient) Accounts(thin.AccountsParams) (thin.AccountsResponse, error) {
 	return c.accountsResponse, c.err
 }
 
@@ -39,7 +39,7 @@ func TestAccountSuccess(t *testing.T) {
 		rawClient: &mockRawClient{accountsResponse: a},
 		ap:        &parser,
 	}
-	got, err := client.Account()
+	got, err := client.Account(AccountsParams{})
 	if err != nil {
 		t.Errorf("Client.Account failed with %v", err)
 	}
@@ -57,7 +57,7 @@ func TestAccountFailsWhenRawClientFails(t *testing.T) {
 		rawClient: &mockRawClient{err: errMockRawClientFail},
 		ap:        &parser,
 	}
-	_, err := client.Account()
+	_, err := client.Account(AccountsParams{})
 	if err != errMockRawClientFail {
 		t.Errorf("Client.Account err got: %v, want: %v", err, errMockRawClientFail)
 	}
@@ -73,7 +73,7 @@ func TestAccountFailsWhenParserFails(t *testing.T) {
 		rawClient: &mockRawClient{},
 		ap:        &parser,
 	}
-	_, err := client.Account()
+	_, err := client.Account(AccountsParams{})
 	if err != parserErr {
 		t.Errorf("Client.Account err got: %v, want: %v", err, parserErr)
 	}

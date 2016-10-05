@@ -36,7 +36,7 @@ func TestAccountsSuccessfulResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	got, err := client.Accounts()
+	got, err := client.Accounts(AccountsParams{})
 	if err != nil {
 		t.Fatalf("client.Accounts failed: %v", err)
 	}
@@ -74,7 +74,7 @@ func TestAccountsErrorResponse(t *testing.T) {
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
-	_, err := client.Accounts()
+	_, err := client.Accounts(AccountsParams{})
 	if err == nil {
 		t.Fatal("client.Accounts should fail when server returns error")
 	}
