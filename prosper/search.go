@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/mtlynch/gofn-prosper/interval"
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 // IncomeRange represents the income range for the borrower associated with a
@@ -174,14 +174,14 @@ type (
 	// SearchFilter specifies a filter for the types of listings to retrieve in
 	// the Search function.
 	SearchFilter struct {
-		EstimatedReturn                           types.Float64Range
+		EstimatedReturn                           interval.Float64Range
 		IncomeRange                               []IncomeRange
-		InquiriesLast6Months                      types.Int32Range
-		PriorProsperLoansLatePaymentsOneMonthPlus types.Int32Range
-		PriorProsperLoansBalanceOutstanding       types.Float64Range
-		DtiWprosperLoan                           types.Float64Range
+		InquiriesLast6Months                      interval.Int32Range
+		PriorProsperLoansLatePaymentsOneMonthPlus interval.Int32Range
+		PriorProsperLoansBalanceOutstanding       interval.Float64Range
+		DtiWprosperLoan                           interval.Float64Range
 		Rating                                    []Rating
-		ListingStartDate                          types.TimeRange
+		ListingStartDate                          interval.TimeRange
 		ListingStatus                             []ListingStatus
 	}
 

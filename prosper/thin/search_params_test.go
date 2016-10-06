@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mtlynch/gofn-prosper/types"
+	"github.com/mtlynch/gofn-prosper/interval"
 )
 
 func TestSearchParamsToQueryString(t *testing.T) {
@@ -33,8 +33,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					EstimatedReturn: types.Float64Range{
-						Min: types.CreateFloat64(0.05),
+					EstimatedReturn: interval.Float64Range{
+						Min: interval.CreateFloat64(0.05),
 					},
 				},
 			},
@@ -43,9 +43,9 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					EstimatedReturn: types.Float64Range{
-						Min: types.CreateFloat64(0.05),
-						Max: types.CreateFloat64(0.07),
+					EstimatedReturn: interval.Float64Range{
+						Min: interval.CreateFloat64(0.05),
+						Max: interval.CreateFloat64(0.07),
 					},
 				},
 			},
@@ -86,8 +86,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					InquiriesLast6Months: types.Int32Range{
-						Min: types.CreateInt32(3),
+					InquiriesLast6Months: interval.Int32Range{
+						Min: interval.CreateInt32(3),
 					},
 				},
 			},
@@ -96,8 +96,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					InquiriesLast6Months: types.Int32Range{
-						Max: types.CreateInt32(2),
+					InquiriesLast6Months: interval.Int32Range{
+						Max: interval.CreateInt32(2),
 					},
 				},
 			},
@@ -106,8 +106,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					PriorProsperLoansLatePaymentsOneMonthPlus: types.Int32Range{
-						Min: types.CreateInt32(3),
+					PriorProsperLoansLatePaymentsOneMonthPlus: interval.Int32Range{
+						Min: interval.CreateInt32(3),
 					},
 				},
 			},
@@ -116,8 +116,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					PriorProsperLoansLatePaymentsOneMonthPlus: types.Int32Range{
-						Max: types.CreateInt32(5),
+					PriorProsperLoansLatePaymentsOneMonthPlus: interval.Int32Range{
+						Max: interval.CreateInt32(5),
 					},
 				},
 			},
@@ -126,8 +126,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					PriorProsperLoansBalanceOutstanding: types.Float64Range{
-						Min: types.CreateFloat64(3.2),
+					PriorProsperLoansBalanceOutstanding: interval.Float64Range{
+						Min: interval.CreateFloat64(3.2),
 					},
 				},
 			},
@@ -136,8 +136,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					PriorProsperLoansBalanceOutstanding: types.Float64Range{
-						Max: types.CreateFloat64(5.8),
+					PriorProsperLoansBalanceOutstanding: interval.Float64Range{
+						Max: interval.CreateFloat64(5.8),
 					},
 				},
 			},
@@ -146,8 +146,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					DtiWprosperLoan: types.Float64Range{
-						Min: types.CreateFloat64(0.04),
+					DtiWprosperLoan: interval.Float64Range{
+						Min: interval.CreateFloat64(0.04),
 					},
 				},
 			},
@@ -156,8 +156,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					DtiWprosperLoan: types.Float64Range{
-						Max: types.CreateFloat64(0.04),
+					DtiWprosperLoan: interval.Float64Range{
+						Max: interval.CreateFloat64(0.04),
 					},
 				},
 			},
@@ -198,8 +198,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					ListingStartDate: types.TimeRange{
-						Min: types.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
+					ListingStartDate: interval.TimeRange{
+						Min: interval.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
 					},
 				},
 			},
@@ -208,8 +208,8 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					ListingStartDate: types.TimeRange{
-						Max: types.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
+					ListingStartDate: interval.TimeRange{
+						Max: interval.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
 					},
 				},
 			},
@@ -218,9 +218,9 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					ListingStartDate: types.TimeRange{
-						Min: types.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
-						Max: types.CreateTime(time.Date(2016, 2, 29, 11, 46, 5, 0, time.UTC)),
+					ListingStartDate: interval.TimeRange{
+						Min: interval.CreateTime(time.Date(2016, 2, 28, 11, 46, 5, 0, time.UTC)),
+						Max: interval.CreateTime(time.Date(2016, 2, 29, 11, 46, 5, 0, time.UTC)),
 					},
 				},
 			},

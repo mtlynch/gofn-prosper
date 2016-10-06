@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/mtlynch/gofn-prosper/interval"
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func (c *mockRawClient) Search(p thin.SearchParams) (thin.SearchResponse, error) {
@@ -38,7 +38,7 @@ var (
 )
 
 func rawSearchFilterEqual(a, b thin.SearchFilter) bool {
-	if !types.Float64RangeEqual(a.EstimatedReturn, b.EstimatedReturn) {
+	if !interval.Float64RangeEqual(a.EstimatedReturn, b.EstimatedReturn) {
 		return false
 	}
 	if len(a.IncomeRange) != len(b.IncomeRange) {
@@ -49,10 +49,10 @@ func rawSearchFilterEqual(a, b thin.SearchFilter) bool {
 			return false
 		}
 	}
-	if !types.Int32RangeEqual(a.InquiriesLast6Months, b.InquiriesLast6Months) {
+	if !interval.Int32RangeEqual(a.InquiriesLast6Months, b.InquiriesLast6Months) {
 		return false
 	}
-	if !types.Float64RangeEqual(a.DtiWprosperLoan, b.DtiWprosperLoan) {
+	if !interval.Float64RangeEqual(a.DtiWprosperLoan, b.DtiWprosperLoan) {
 		return false
 	}
 	if len(a.Rating) != len(b.Rating) {
@@ -125,10 +125,10 @@ func TestSearch(t *testing.T) {
 				Limit:  50,
 				ExcludeListingsInvested: true,
 				Filter: SearchFilter{
-					EstimatedReturn:      types.NewFloat64Range(0.0, 0.2),
+					EstimatedReturn:      interval.NewFloat64Range(0.0, 0.2),
 					IncomeRange:          []IncomeRange{ZeroIncome, Between0And25k},
-					InquiriesLast6Months: types.NewInt32Range(1, 5),
-					DtiWprosperLoan:      types.NewFloat64Range(0.0, 0.4),
+					InquiriesLast6Months: interval.NewInt32Range(1, 5),
+					DtiWprosperLoan:      interval.NewFloat64Range(0.0, 0.4),
 					Rating:               []Rating{RatingA, RatingC},
 					ListingStatus:        []ListingStatus{ListingActive, ListingExpired},
 				},
@@ -138,10 +138,10 @@ func TestSearch(t *testing.T) {
 				Limit:  50,
 				ExcludeListingsInvested: true,
 				Filter: thin.SearchFilter{
-					EstimatedReturn:      types.NewFloat64Range(0.0, 0.2),
+					EstimatedReturn:      interval.NewFloat64Range(0.0, 0.2),
 					IncomeRange:          []int8{1, 2},
-					InquiriesLast6Months: types.NewInt32Range(1, 5),
-					DtiWprosperLoan:      types.NewFloat64Range(0.0, 0.4),
+					InquiriesLast6Months: interval.NewInt32Range(1, 5),
+					DtiWprosperLoan:      interval.NewFloat64Range(0.0, 0.4),
 					Rating:               []string{"A", "C"},
 					ListingStatus:        []int{2, 5},
 				},
