@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 # Exit on first error.
 set -e
 
 go test ./...
 
-gofmt -s -d .
+# Make sure there is no output from gofmt.
+gofmt -s -d . 2>&1 | read && (echo 'error: not formatted' || exit 1)
 
 go vet ./...
 
