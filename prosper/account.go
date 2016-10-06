@@ -47,5 +47,5 @@ func (c Client) Account(AccountParams) (AccountInformation, error) {
 	if err != nil {
 		return AccountInformation{}, err
 	}
-	return c.ap.Parse(rawResponse)
+	return c.accountParser.Parse(rawResponse)
 }

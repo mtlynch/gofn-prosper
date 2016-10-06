@@ -105,7 +105,7 @@ func TestNotes(t *testing.T) {
 				notesResponse: tt.rawResponse,
 				err:           tt.clientErr,
 			},
-			nrp: &parser,
+			notesResponseParser: &parser,
 		}
 		got, err := client.Notes(tt.params)
 		if err != tt.wantErr {

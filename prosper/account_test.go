@@ -35,8 +35,8 @@ func TestAccountSuccess(t *testing.T) {
 	}
 	parser := mockAccountParser{accountInformation: want}
 	client := Client{
-		rawClient: &mockRawClient{accountsResponse: a},
-		ap:        &parser,
+		rawClient:     &mockRawClient{accountsResponse: a},
+		accountParser: &parser,
 	}
 	got, err := client.Account(AccountParams{})
 	if err != nil {
@@ -53,8 +53,8 @@ func TestAccountSuccess(t *testing.T) {
 func TestAccountFailsWhenRawClientFails(t *testing.T) {
 	parser := mockAccountParser{}
 	client := Client{
-		rawClient: &mockRawClient{err: errMockRawClientFail},
-		ap:        &parser,
+		rawClient:     &mockRawClient{err: errMockRawClientFail},
+		accountParser: &parser,
 	}
 	_, err := client.Account(AccountParams{})
 	if err != errMockRawClientFail {
@@ -69,8 +69,8 @@ func TestAccountFailsWhenParserFails(t *testing.T) {
 	parserErr := errors.New("mock parser error")
 	parser := mockAccountParser{err: parserErr}
 	client := Client{
-		rawClient: &mockRawClient{},
-		ap:        &parser,
+		rawClient:     &mockRawClient{},
+		accountParser: &parser,
 	}
 	_, err := client.Account(AccountParams{})
 	if err != parserErr {
