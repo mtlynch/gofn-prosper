@@ -121,7 +121,7 @@ func (c Client) Notes(p NotesParams) (NotesResponse, error) {
 	if err != nil {
 		return NotesResponse{}, err
 	}
-	return c.nrp.Parse(notesResponseRaw)
+	return c.notesResponseParser.Parse(notesResponseRaw)
 }
 
 func notesParamsToThinType(p NotesParams) thin.NotesParams {
