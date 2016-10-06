@@ -3,8 +3,6 @@ package auth
 import (
 	"sync"
 	"time"
-
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 // OAuthToken is an authentication token from Prosper that is valid for a
@@ -25,7 +23,7 @@ type TokenManager interface {
 type defaultTokenManager struct {
 	token         OAuthToken
 	authenticator ProsperAuthenticator
-	clock         types.Clock
+	clock         Clock
 	lock          sync.Mutex
 }
 
@@ -35,7 +33,7 @@ func NewTokenManager(authenticator ProsperAuthenticator) TokenManager {
 	return &defaultTokenManager{
 		token:         OAuthToken{},
 		authenticator: authenticator,
-		clock:         types.DefaultClock{},
+		clock:         DefaultClock{},
 		lock:          sync.Mutex{},
 	}
 }
