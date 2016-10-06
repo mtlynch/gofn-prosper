@@ -10,7 +10,7 @@ import (
 type Client struct {
 	rawClient     thin.RawAPIHandler
 	ap            accountParser
-	nrp           NotesResponseParser
+	nrp           notesResponseParser
 	listingParser listingParser
 	orderParser   orderParser
 }
@@ -21,7 +21,7 @@ func NewClient(creds auth.ClientCredentials) Client {
 	return Client{
 		rawClient:     thin.NewClient(tokenMgr),
 		ap:            defaultAccountParser{},
-		nrp:           NewNotesResponseParser(),
+		nrp:           newNotesResponseParser(),
 		listingParser: defaultListingParser{},
 		orderParser:   defaultOrderParser{},
 	}
