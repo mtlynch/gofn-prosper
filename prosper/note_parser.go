@@ -25,7 +25,7 @@ func (p defaultNoteParser) Parse(r thin.NoteResult) (Note, error) {
 	if err != nil {
 		return Note{}, err
 	}
-	prosperRating, err := parseProsperRating(r.ProsperRating)
+	rating, err := parseRating(r.Rating)
 	if err != nil {
 		return Note{}, err
 	}
@@ -58,8 +58,8 @@ func (p defaultNoteParser) Parse(r thin.NoteResult) (Note, error) {
 		PrincipalBalanceProRataShare:     r.PrincipalBalanceProRataShare,
 		PrincipalPaidProRataShare:        r.PrincipalPaidProRataShare,
 		ProsperFeesPaidProRataShare:      r.ProsperFeesPaidProRataShare,
-		ProsperRating:                    prosperRating,
-		ServiceFeesPaidProRataShare:      r.ServiceFeesPaidProRataShare,
+		Rating: rating,
+		ServiceFeesPaidProRataShare: r.ServiceFeesPaidProRataShare,
 		Term: r.Term,
 	}, nil
 }
@@ -75,8 +75,8 @@ func parseDefaultReason(defaultReason int64) (*DefaultReason, error) {
 	return &dr, nil
 }
 
-func parseProsperRating(rating string) (ProsperRating, error) {
-	stringToRating := map[string]ProsperRating{
+func parseRating(rating string) (Rating, error) {
+	stringToRating := map[string]Rating{
 		"AA":  RatingAA,
 		"A":   RatingA,
 		"B":   RatingB,

@@ -166,7 +166,7 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					ProsperRating: []string{"AA"},
+					Rating: []string{"AA"},
 				},
 			},
 			want: "prosper_rating=AA",
@@ -174,7 +174,7 @@ func TestSearchParamsToQueryString(t *testing.T) {
 		{
 			p: SearchParams{
 				Filter: SearchFilter{
-					ProsperRating: []string{"A", "C", "E"},
+					Rating: []string{"A", "C", "E"},
 				},
 			},
 			want: "prosper_rating=A,C,E",

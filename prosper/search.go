@@ -149,7 +149,7 @@ type Listing struct {
 	PriorProsperLoansOntimePayments           int64
 	PriorProsperLoansPrincipalBorrowed        float64
 	PriorProsperLoansPrincipalOutstanding     float64
-	ProsperRating                             ProsperRating
+	Rating                                    Rating
 	ProsperScore                              int64 //TODO: Parse this
 	PublicRecordsLast10Years                  int64
 	PublicRecordsLast12Months                 int64
@@ -180,7 +180,7 @@ type (
 		PriorProsperLoansLatePaymentsOneMonthPlus types.Int32Range
 		PriorProsperLoansBalanceOutstanding       types.Float64Range
 		DtiWprosperLoan                           types.Float64Range
-		ProsperRating                             []ProsperRating
+		Rating                                    []Rating
 		ListingStartDate                          types.TimeRange
 		ListingStatus                             []ListingStatus
 	}
@@ -247,8 +247,8 @@ func searchFilterToThinType(f SearchFilter) thin.SearchFilter {
 		incomeRanges = append(incomeRanges, int8(incomeRange))
 	}
 	ratings := []string{}
-	for _, rating := range f.ProsperRating {
-		ratings = append(ratings, prosperRatingToString(rating))
+	for _, rating := range f.Rating {
+		ratings = append(ratings, ratingToString(rating))
 	}
 	listingStatus := []int{}
 	for _, status := range f.ListingStatus {
@@ -261,14 +261,14 @@ func searchFilterToThinType(f SearchFilter) thin.SearchFilter {
 		PriorProsperLoansLatePaymentsOneMonthPlus: f.PriorProsperLoansLatePaymentsOneMonthPlus,
 		PriorProsperLoansBalanceOutstanding:       f.PriorProsperLoansBalanceOutstanding,
 		DtiWprosperLoan:                           f.DtiWprosperLoan,
-		ProsperRating:                             ratings,
+		Rating:                                    ratings,
 		ListingStartDate:                          f.ListingStartDate,
 		ListingStatus:                             listingStatus,
 	}
 }
 
-func prosperRatingToString(r ProsperRating) string {
-	ratingToString := map[ProsperRating]string{
+func ratingToString(r Rating) string {
+	ratingToString := map[Rating]string{
 		RatingAA: "AA",
 		RatingA:  "A",
 		RatingB:  "B",

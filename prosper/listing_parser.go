@@ -25,7 +25,7 @@ func (p defaultListingParser) Parse(r thin.SearchResult) (Listing, error) {
 	if err != nil {
 		return Listing{}, err
 	}
-	prosperRating, err := parseProsperRating(r.ProsperRating)
+	rating, err := parseRating(r.Rating)
 	if err != nil {
 		return Listing{}, err
 	}
@@ -116,7 +116,7 @@ func (p defaultListingParser) Parse(r thin.SearchResult) (Listing, error) {
 		MonthlyDebt:                               r.MonthlyDebt,
 		MonthsEmployed:                            r.MonthsEmployed,
 		PartialFundingIndicator:                   r.PartialFundingIndicator,
-		ProsperRating:                             prosperRating,
+		Rating:                                    rating,
 		ProsperScore:                              r.ProsperScore,
 		BorrowerApr:                               r.BorrowerApr,
 		PriorProsperLoans31dpd:                    r.PriorProsperLoans31dpd,

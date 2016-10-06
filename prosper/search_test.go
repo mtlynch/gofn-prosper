@@ -55,11 +55,11 @@ func rawSearchFilterEqual(a, b thin.SearchFilter) bool {
 	if !types.Float64RangeEqual(a.DtiWprosperLoan, b.DtiWprosperLoan) {
 		return false
 	}
-	if len(a.ProsperRating) != len(b.ProsperRating) {
+	if len(a.Rating) != len(b.Rating) {
 		return false
 	}
-	for i := range a.ProsperRating {
-		if a.ProsperRating[i] != b.ProsperRating[i] {
+	for i := range a.Rating {
+		if a.Rating[i] != b.Rating[i] {
 			return false
 		}
 	}
@@ -129,7 +129,7 @@ func TestSearch(t *testing.T) {
 					IncomeRange:          []IncomeRange{ZeroIncome, Between0And25k},
 					InquiriesLast6Months: types.NewInt32Range(1, 5),
 					DtiWprosperLoan:      types.NewFloat64Range(0.0, 0.4),
-					ProsperRating:        []ProsperRating{RatingA, RatingC},
+					Rating:               []Rating{RatingA, RatingC},
 					ListingStatus:        []ListingStatus{ListingActive, ListingExpired},
 				},
 			},
@@ -142,7 +142,7 @@ func TestSearch(t *testing.T) {
 					IncomeRange:          []int8{1, 2},
 					InquiriesLast6Months: types.NewInt32Range(1, 5),
 					DtiWprosperLoan:      types.NewFloat64Range(0.0, 0.4),
-					ProsperRating:        []string{"A", "C"},
+					Rating:               []string{"A", "C"},
 					ListingStatus:        []int{2, 5},
 				},
 			},

@@ -50,14 +50,14 @@ const (
 	NoteStatusInvalid      NoteStatus = -1
 )
 
-// ProsperRating represents the Prosper-assigned credit rating of a Prosper
+// Rating represents the Prosper-assigned credit rating of a Prosper
 // note. The values correspond to the values of prosper_rating defined at:
 // https://developers.prosper.com/docs/investor/notes-api/
-type ProsperRating int8
+type Rating int8
 
-// Set of possible ProsperRating values.
+// Set of possible Rating values.
 const (
-	RatingAA ProsperRating = iota
+	RatingAA Rating = iota
 	RatingA
 	RatingB
 	RatingC
@@ -95,7 +95,7 @@ type Note struct {
 	PrincipalBalanceProRataShare         float64
 	PrincipalPaidProRataShare            float64
 	ProsperFeesPaidProRataShare          float64
-	ProsperRating                        ProsperRating
+	Rating                               Rating
 	ServiceFeesPaidProRataShare          float64
 	Term                                 int64
 }
