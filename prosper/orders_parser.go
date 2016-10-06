@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 type orderParser interface {
@@ -56,7 +55,7 @@ func parseBidStatus(s thin.BidStatus) (BidStatus, error) {
 	}
 	return BidStatus{
 		BidRequest: BidRequest{
-			ListingID: types.ListingNumber(s.ListingID),
+			ListingID: ListingNumber(s.ListingID),
 			BidAmount: s.BidAmount,
 		},
 		Status:          bidStatus,

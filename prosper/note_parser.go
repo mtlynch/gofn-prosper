@@ -4,37 +4,36 @@ import (
 	"fmt"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 type noteParser interface {
-	Parse(thin.NoteResult) (types.Note, error)
+	Parse(thin.NoteResult) (Note, error)
 }
 
 type defaultNoteParser struct{}
 
-func (p defaultNoteParser) Parse(r thin.NoteResult) (types.Note, error) {
+func (p defaultNoteParser) Parse(r thin.NoteResult) (Note, error) {
 	originationDate, err := parseProsperDate(r.OriginationDate)
 	if err != nil {
-		return types.Note{}, err
+		return Note{}, err
 	}
 	nextPaymentDueDate, err := parseProsperDate(r.NextPaymentDueDate)
 	if err != nil {
-		return types.Note{}, err
+		return Note{}, err
 	}
 	defaultReason, err := parseDefaultReason(r.NoteDefaultReason)
 	if err != nil {
-		return types.Note{}, err
+		return Note{}, err
 	}
-	prosperRating, err := parseProsperRating(r.ProsperRating)
+	rating, err := parseRating(r.Rating)
 	if err != nil {
-		return types.Note{}, err
+		return Note{}, err
 	}
 	noteStatus, err := parseNoteStatus(r.NoteStatus)
 	if err != nil {
-		return types.Note{}, err
+		return Note{}, err
 	}
-	return types.Note{
+	return Note{
 		AgeInMonths:                          r.AgeInMonths,
 		AmountBorrowed:                       r.AmountBorrowed,
 		BorrowerRate:                         r.BorrowerRate,
@@ -43,7 +42,7 @@ func (p defaultNoteParser) Parse(r thin.NoteResult) (types.Note, error) {
 		InterestPaidProRataShare:             r.InterestPaidProRataShare,
 		IsSold: r.IsSold,
 		LateFeesPaidProRataShare:         r.LateFeesPaidProRataShare,
-		ListingNumber:                    types.ListingNumber(r.ListingNumber),
+		ListingNumber:                    ListingNumber(r.ListingNumber),
 		LoanNoteID:                       r.LoanNoteID,
 		LoanNumber:                       r.LoanNumber,
 		NextPaymentDueAmountProRataShare: r.NextPaymentDueAmountProRataShare,
@@ -59,44 +58,44 @@ func (p defaultNoteParser) Parse(r thin.NoteResult) (types.Note, error) {
 		PrincipalBalanceProRataShare:     r.PrincipalBalanceProRataShare,
 		PrincipalPaidProRataShare:        r.PrincipalPaidProRataShare,
 		ProsperFeesPaidProRataShare:      r.ProsperFeesPaidProRataShare,
-		ProsperRating:                    prosperRating,
-		ServiceFeesPaidProRataShare:      r.ServiceFeesPaidProRataShare,
+		Rating: rating,
+		ServiceFeesPaidProRataShare: r.ServiceFeesPaidProRataShare,
 		Term: r.Term,
 	}, nil
 }
 
-func parseDefaultReason(defaultReason int64) (*types.DefaultReason, error) {
+func parseDefaultReason(defaultReason int64) (*DefaultReason, error) {
 	if defaultReason == 0 {
 		return nil, nil
 	}
-	if defaultReason < int64(types.DefaultReasonMin) || defaultReason > int64(types.DefaultReasonMax) {
-		return nil, fmt.Errorf("default reason out of range: %d, expected %d-%d", defaultReason, types.DefaultReasonMin, types.DefaultReasonMax)
+	if defaultReason < int64(DefaultReasonMin) || defaultReason > int64(DefaultReasonMax) {
+		return nil, fmt.Errorf("default reason out of range: %d, expected %d-%d", defaultReason, DefaultReasonMin, DefaultReasonMax)
 	}
-	dr := types.DefaultReason(defaultReason)
+	dr := DefaultReason(defaultReason)
 	return &dr, nil
 }
 
-func parseProsperRating(rating string) (types.ProsperRating, error) {
-	stringToRating := map[string]types.ProsperRating{
-		"AA":  types.RatingAA,
-		"A":   types.RatingA,
-		"B":   types.RatingB,
-		"C":   types.RatingC,
-		"D":   types.RatingD,
-		"E":   types.RatingE,
-		"HR":  types.RatingHR,
-		"N/A": types.RatingNA,
+func parseRating(rating string) (Rating, error) {
+	stringToRating := map[string]Rating{
+		"AA":  RatingAA,
+		"A":   RatingA,
+		"B":   RatingB,
+		"C":   RatingC,
+		"D":   RatingD,
+		"E":   RatingE,
+		"HR":  RatingHR,
+		"N/A": RatingNA,
 	}
 	parsed, ok := stringToRating[rating]
 	if !ok {
-		return types.RatingNA, fmt.Errorf("unrecognized Prosper rating value: %s", rating)
+		return RatingNA, fmt.Errorf("unrecognized Prosper rating value: %s", rating)
 	}
 	return parsed, nil
 }
 
-func parseNoteStatus(noteStatus int64) (types.NoteStatus, error) {
-	if noteStatus < int64(types.NoteStatusMin) || noteStatus > int64(types.NoteStatusMax) {
-		return types.NoteStatusInvalid, fmt.Errorf("note status out of range: %d, expected %d-%d", noteStatus, types.NoteStatusMax, types.NoteStatusMax)
+func parseNoteStatus(noteStatus int64) (NoteStatus, error) {
+	if noteStatus < int64(NoteStatusMin) || noteStatus > int64(NoteStatusMax) {
+		return NoteStatusInvalid, fmt.Errorf("note status out of range: %d, expected %d-%d", noteStatus, NoteStatusMax, NoteStatusMax)
 	}
-	return types.NoteStatus(noteStatus), nil
+	return NoteStatus(noteStatus), nil
 }

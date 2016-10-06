@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 // BidStatusValue represents the status of an order. The values correspond to
@@ -43,7 +42,7 @@ const (
 
 // BidRequest represents an order for a given Prosper listing.
 type BidRequest struct {
-	ListingID types.ListingNumber
+	ListingID ListingNumber
 	BidAmount float64
 }
 
@@ -99,11 +98,11 @@ type OrderResponse struct {
 
 // BidPlacer places bids on listings for the requested amount.
 type BidPlacer interface {
-	PlaceBid(types.ListingNumber, float64) (OrderResponse, error)
+	PlaceBid(ListingNumber, float64) (OrderResponse, error)
 }
 
 // PlaceBid places a bid for the given listing at the given bid amount.
-func (c Client) PlaceBid(listingID types.ListingNumber, bidAmount float64) (OrderResponse, error) {
+func (c Client) PlaceBid(listingID ListingNumber, bidAmount float64) (OrderResponse, error) {
 	rawResponse, err := c.rawClient.PlaceBid([]thin.BidRequest{
 		{
 			ListingID: int64(listingID),

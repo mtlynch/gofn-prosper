@@ -6,11 +6,10 @@ import (
 	"testing"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 type mockParseResult struct {
-	parsed types.Note
+	parsed Note
 	err    error
 }
 
@@ -19,7 +18,7 @@ type mockNoteParser struct {
 	returns []mockParseResult
 }
 
-func (p *mockNoteParser) Parse(r thin.NoteResult) (types.Note, error) {
+func (p *mockNoteParser) Parse(r thin.NoteResult) (Note, error) {
 	p.got = append(p.got, r)
 	var result mockParseResult
 	result, p.returns = p.returns[0], p.returns[1:]
@@ -30,7 +29,7 @@ func TestNotesResponseParser(t *testing.T) {
 	var tests = []struct {
 		input         thin.NotesResponse
 		parseResults  []mockParseResult
-		want          types.NotesResponse
+		want          NotesResponse
 		expectSuccess bool
 		msg           string
 	}{
@@ -44,11 +43,11 @@ func TestNotesResponseParser(t *testing.T) {
 			},
 			parseResults: []mockParseResult{
 				{
-					parsed: types.Note{LoanNumber: 123},
+					parsed: Note{LoanNumber: 123},
 				},
 			},
-			want: types.NotesResponse{
-				Result: []types.Note{
+			want: NotesResponse{
+				Result: []Note{
 					{LoanNumber: 123},
 				},
 				ResultCount: 1,
@@ -69,17 +68,17 @@ func TestNotesResponseParser(t *testing.T) {
 			},
 			parseResults: []mockParseResult{
 				{
-					parsed: types.Note{LoanNumber: 123},
+					parsed: Note{LoanNumber: 123},
 				},
 				{
-					parsed: types.Note{LoanNumber: 124},
+					parsed: Note{LoanNumber: 124},
 				},
 				{
-					parsed: types.Note{LoanNumber: 125},
+					parsed: Note{LoanNumber: 125},
 				},
 			},
-			want: types.NotesResponse{
-				Result: []types.Note{
+			want: NotesResponse{
+				Result: []Note{
 					{LoanNumber: 123},
 					{LoanNumber: 124},
 					{LoanNumber: 125},
@@ -102,13 +101,13 @@ func TestNotesResponseParser(t *testing.T) {
 			},
 			parseResults: []mockParseResult{
 				{
-					parsed: types.Note{LoanNumber: 123},
+					parsed: Note{LoanNumber: 123},
 				},
 				{
 					err: errors.New("mock note parsing error"),
 				},
 				{
-					parsed: types.Note{LoanNumber: 125},
+					parsed: Note{LoanNumber: 125},
 				},
 			},
 			expectSuccess: false,

@@ -73,8 +73,8 @@ func searchParamsToQueryString(p SearchParams) string {
 		}
 		clauses = append(clauses, stringsToClauseValues("income_range", rangeValues))
 	}
-	if len(p.Filter.ProsperRating) > 0 {
-		clauses = append(clauses, stringsToClauseValues("prosper_rating", p.Filter.ProsperRating))
+	if len(p.Filter.Rating) > 0 {
+		clauses = append(clauses, stringsToClauseValues("prosper_rating", p.Filter.Rating))
 	}
 	if len(p.Filter.ListingStatus) > 0 {
 		clauses = append(clauses, intsToClauseValues("listing_status", p.Filter.ListingStatus))

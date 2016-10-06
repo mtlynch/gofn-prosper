@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 var (
@@ -44,7 +43,7 @@ const (
 
 func TestPlaceBid(t *testing.T) {
 	var tests = []struct {
-		listingID           types.ListingNumber
+		listingID           ListingNumber
 		bidAmount           float64
 		wantBidRequest      []thin.BidRequest
 		rawOrderResponse    thin.OrderResponse

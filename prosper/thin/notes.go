@@ -19,7 +19,7 @@ type (
 		LoanNumber                           int64   `json:"loan_number"`
 		AmountBorrowed                       float64 `json:"amount_borrowed"`
 		BorrowerRate                         float64 `json:"borrower_rate"`
-		ProsperRating                        string  `json:"prosper_rating"`
+		Rating                               string  `json:"prosper_rating"`
 		Term                                 int64   `json:"term"`
 		AgeInMonths                          int64   `json:"age_in_months"`
 		OriginationDate                      string  `json:"origination_date"`

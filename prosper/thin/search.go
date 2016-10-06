@@ -12,7 +12,7 @@ type (
 		PriorProsperLoansLatePaymentsOneMonthPlus types.Int32Range
 		PriorProsperLoansBalanceOutstanding       types.Float64Range
 		DtiWprosperLoan                           types.Float64Range
-		ProsperRating                             []string
+		Rating                                    []string
 		ListingStartDate                          types.TimeRange
 		ListingStatus                             []int
 	}
@@ -104,7 +104,7 @@ type (
 		PriorProsperLoansOntimePayments           int64   `json:"prior_prosper_loans_ontime_payments"`
 		PriorProsperLoansPrincipalBorrowed        float64 `json:"prior_prosper_loans_principal_borrowed"`
 		PriorProsperLoansPrincipalOutstanding     float64 `json:"prior_prosper_loans_principal_outstanding"`
-		ProsperRating                             string  `json:"prosper_rating"`
+		Rating                                    string  `json:"prosper_rating"`
 		ProsperScore                              int64   `json:"prosper_score"`
 		PublicRecordsLast10Years                  int64   `json:"public_records_last10_years"`
 		PublicRecordsLast12Months                 int64   `json:"public_records_last12_months"`
