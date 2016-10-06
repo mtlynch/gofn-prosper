@@ -96,17 +96,17 @@ type OrderResponse struct {
 	OrderDate   time.Time
 }
 
-// BidPlacer places bids on listings for the requested amount.
+// BidPlacer places a bid on the given listing for the requested amount.
 type BidPlacer interface {
-	PlaceBid(ListingNumber, float64) (OrderResponse, error)
+	PlaceBid(BidRequest) (OrderResponse, error)
 }
 
 // PlaceBid places a bid for the given listing at the given bid amount.
-func (c Client) PlaceBid(listingID ListingNumber, bidAmount float64) (OrderResponse, error) {
+func (c Client) PlaceBid(b BidRequest) (OrderResponse, error) {
 	rawResponse, err := c.rawClient.PlaceBid([]thin.BidRequest{
 		{
-			ListingID: int64(listingID),
-			BidAmount: bidAmount,
+			ListingID: int64(b.ListingID),
+			BidAmount: b.BidAmount,
 		},
 	})
 	if err != nil {

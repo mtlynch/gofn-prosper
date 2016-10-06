@@ -110,7 +110,10 @@ func TestPlaceBid(t *testing.T) {
 			rawClient:   &mockRawClient,
 			orderParser: &mockParser,
 		}
-		got, err := c.PlaceBid(tt.listingID, tt.bidAmount)
+		got, err := c.PlaceBid(BidRequest{
+			ListingID: tt.listingID,
+			BidAmount: tt.bidAmount,
+		})
 		if err != tt.wantErr {
 			t.Errorf("unexpected error from PlaceBid. got: %v, want: %v", err, tt.wantErr)
 		} else if tt.wantErr == nil {
