@@ -1,19 +1,19 @@
 package thin
 
-import "github.com/mtlynch/gofn-prosper/types"
+import "github.com/mtlynch/gofn-prosper/interval"
 
 type (
 	// SearchFilter specifies a filter for the types of listings to retrieve in
 	// the Search function.
 	SearchFilter struct {
-		EstimatedReturn                           types.Float64Range
+		EstimatedReturn                           interval.Float64Range
 		IncomeRange                               []int8
-		InquiriesLast6Months                      types.Int32Range
-		PriorProsperLoansLatePaymentsOneMonthPlus types.Int32Range
-		PriorProsperLoansBalanceOutstanding       types.Float64Range
-		DtiWprosperLoan                           types.Float64Range
+		InquiriesLast6Months                      interval.Int32Range
+		PriorProsperLoansLatePaymentsOneMonthPlus interval.Int32Range
+		PriorProsperLoansBalanceOutstanding       interval.Float64Range
+		DtiWprosperLoan                           interval.Float64Range
 		Rating                                    []string
-		ListingStartDate                          types.TimeRange
+		ListingStartDate                          interval.TimeRange
 		ListingStatus                             []int
 	}
 

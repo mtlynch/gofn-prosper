@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mtlynch/gofn-prosper/types"
+	"github.com/mtlynch/gofn-prosper/interval"
 )
 
 func stringsToClauseValues(name string, s []string) string {
@@ -21,7 +21,7 @@ func intsToClauseValues(name string, ints []int) string {
 	return stringsToClauseValues(name, converted)
 }
 
-func float64RangeToClauses(name string, r types.Float64Range) (clauses []string) {
+func float64RangeToClauses(name string, r interval.Float64Range) (clauses []string) {
 	if r.Min != nil {
 		clauses = append(clauses, fmt.Sprintf("%s_min=%.4f", name, *r.Min))
 	}
@@ -31,7 +31,7 @@ func float64RangeToClauses(name string, r types.Float64Range) (clauses []string)
 	return clauses
 }
 
-func int32RangeToClauses(name string, r types.Int32Range) (clauses []string) {
+func int32RangeToClauses(name string, r interval.Int32Range) (clauses []string) {
 	if r.Min != nil {
 		clauses = append(clauses, fmt.Sprintf("%s_min=%d", name, *r.Min))
 	}
@@ -45,7 +45,7 @@ func formatTime(t time.Time) string {
 	return t.Format("2006-01-02+15:04:05")
 }
 
-func timeRangeToClauses(name string, r types.TimeRange) (clauses []string) {
+func timeRangeToClauses(name string, r interval.TimeRange) (clauses []string) {
 	if r.Min != nil {
 		clauses = append(clauses, fmt.Sprintf("%s_min=%s", name, formatTime(*r.Min)))
 	}
