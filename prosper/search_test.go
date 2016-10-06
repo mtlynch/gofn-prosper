@@ -16,13 +16,13 @@ func (c *mockRawClient) Search(p thin.SearchParams) (thin.SearchResponse, error)
 
 type mockListingParser struct {
 	searchResultsGot []thin.SearchResult
-	listings         []types.Listing
+	listings         []Listing
 	errs             []error
 }
 
-func (p *mockListingParser) Parse(r thin.SearchResult) (types.Listing, error) {
+func (p *mockListingParser) Parse(r thin.SearchResult) (Listing, error) {
 	p.searchResultsGot = append(p.searchResultsGot, r)
-	var l types.Listing
+	var l Listing
 	l, p.listings = p.listings[0], p.listings[1:]
 	var err error
 	err, p.errs = p.errs[0], p.errs[1:]
@@ -32,8 +32,8 @@ func (p *mockListingParser) Parse(r thin.SearchResult) (types.Listing, error) {
 var (
 	rawListingA             = thin.SearchResult{ListingNumber: 1234}
 	rawListingB             = thin.SearchResult{ListingNumber: 4567}
-	listingA                = types.Listing{ListingNumber: 1234}
-	listingB                = types.Listing{ListingNumber: 4567}
+	listingA                = Listing{ListingNumber: 1234}
+	listingB                = Listing{ListingNumber: 4567}
 	errMockListingParseFail = errors.New("mock listing parser error")
 )
 
@@ -93,7 +93,7 @@ func TestSearch(t *testing.T) {
 		wantRawSearchParams thin.SearchParams
 		rawSearchResponse   thin.SearchResponse
 		rawClientErr        error
-		parsedListings      []types.Listing
+		parsedListings      []Listing
 		parseErrors         []error
 		want                SearchResponse
 		wantErr             error
@@ -110,10 +110,10 @@ func TestSearch(t *testing.T) {
 				ResultCount: 1,
 				TotalCount:  1,
 			},
-			parsedListings: []types.Listing{listingA},
+			parsedListings: []Listing{listingA},
 			parseErrors:    []error{nil},
 			want: SearchResponse{
-				Results:     []types.Listing{listingA},
+				Results:     []Listing{listingA},
 				ResultCount: 1,
 				TotalCount:  1,
 			},
@@ -126,11 +126,11 @@ func TestSearch(t *testing.T) {
 				ExcludeListingsInvested: true,
 				Filter: SearchFilter{
 					EstimatedReturn:      types.NewFloat64Range(0.0, 0.2),
-					IncomeRange:          []types.IncomeRange{types.ZeroIncome, types.Between0And25k},
+					IncomeRange:          []IncomeRange{ZeroIncome, Between0And25k},
 					InquiriesLast6Months: types.NewInt32Range(1, 5),
 					DtiWprosperLoan:      types.NewFloat64Range(0.0, 0.4),
-					ProsperRating:        []types.ProsperRating{types.RatingA, types.RatingC},
-					ListingStatus:        []types.ListingStatus{types.ListingActive, types.ListingExpired},
+					ProsperRating:        []ProsperRating{RatingA, RatingC},
+					ListingStatus:        []ListingStatus{ListingActive, ListingExpired},
 				},
 			},
 			wantRawSearchParams: thin.SearchParams{
@@ -151,10 +151,10 @@ func TestSearch(t *testing.T) {
 				ResultCount: 1,
 				TotalCount:  1,
 			},
-			parsedListings: []types.Listing{listingA},
+			parsedListings: []Listing{listingA},
 			parseErrors:    []error{nil},
 			want: SearchResponse{
-				Results:     []types.Listing{listingA},
+				Results:     []Listing{listingA},
 				ResultCount: 1,
 				TotalCount:  1,
 			},
@@ -166,10 +166,10 @@ func TestSearch(t *testing.T) {
 				ResultCount: 2,
 				TotalCount:  2,
 			},
-			parsedListings: []types.Listing{listingA, listingB},
+			parsedListings: []Listing{listingA, listingB},
 			parseErrors:    []error{nil, nil},
 			want: SearchResponse{
-				Results:     []types.Listing{listingA, listingB},
+				Results:     []Listing{listingA, listingB},
 				ResultCount: 2,
 				TotalCount:  2,
 			},
@@ -181,7 +181,7 @@ func TestSearch(t *testing.T) {
 				ResultCount: 1,
 				TotalCount:  1,
 			},
-			parsedListings: []types.Listing{listingA},
+			parsedListings: []Listing{listingA},
 			parseErrors:    []error{errMockListingParseFail},
 			wantErr:        errMockListingParseFail,
 			msg:            "parsing a single result with a parse error should fail",
@@ -192,7 +192,7 @@ func TestSearch(t *testing.T) {
 				ResultCount: 3,
 				TotalCount:  3,
 			},
-			parsedListings: []types.Listing{listingA, {}, listingB},
+			parsedListings: []Listing{listingA, {}, listingB},
 			parseErrors:    []error{nil, errMockListingParseFail, nil},
 			wantErr:        errMockListingParseFail,
 			msg:            "a single parser error among successful parses should fail",

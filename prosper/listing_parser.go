@@ -4,69 +4,68 @@ import (
 	"fmt"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 type listingParser interface {
-	Parse(thin.SearchResult) (types.Listing, error)
+	Parse(thin.SearchResult) (Listing, error)
 }
 
 type defaultListingParser struct{}
 
-func (p defaultListingParser) Parse(r thin.SearchResult) (types.Listing, error) {
+func (p defaultListingParser) Parse(r thin.SearchResult) (Listing, error) {
 	incomeRange, err := parseIncomeRange(r.IncomeRange)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	listingStatus, err := parseListingStatus(r.ListingStatus)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	ficoScore, err := parseFicoScore(r.FicoScore)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	prosperRating, err := parseProsperRating(r.ProsperRating)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	oldestTradeOpenDate, err := parseProsperOldTime(r.OldestTradeOpenDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	firstRecordedCreditLine, err := parseProsperTime(r.FirstRecordedCreditLine)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	creditPullDate, err := parseProsperTime(r.CreditPullDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	listingCreationDate, err := parseProsperTime(r.ListingCreationDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	listingEndDate, err := parseProsperTime(r.ListingEndDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	listingStartDate, err := parseProsperTime(r.ListingStartDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	wholeLoanStartDate, err := parseProsperTime(r.WholeLoanStartDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	wholeLoanEndDate, err := parseProsperTime(r.WholeLoanEndDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
 	lastUpdatedDate, err := parseProsperTime(r.LastUpdatedDate)
 	if err != nil {
-		return types.Listing{}, err
+		return Listing{}, err
 	}
-	return types.Listing{
+	return Listing{
 		PriorProsperLoans:                         r.PriorProsperLoans,
 		AmountDelinquent:                          r.AmountDelinquent,
 		AmountParticipation:                       r.AmountParticipation,
@@ -87,7 +86,7 @@ func (p defaultListingParser) Parse(r thin.SearchResult) (types.Listing, error) 
 		IsHomeowner:                               r.IsHomeowner,
 		LastUpdatedDate:                           lastUpdatedDate,
 		ListingAmount:                             r.ListingAmount,
-		ListingNumber:                             types.ListingNumber(r.ListingNumber),
+		ListingNumber:                             ListingNumber(r.ListingNumber),
 		PriorProsperLoans61dpd:                    r.PriorProsperLoans61dpd,
 		PriorProsperLoansPrincipalBorrowed:        r.PriorProsperLoansPrincipalBorrowed,
 		WasDelinquentDerog:                        r.WasDelinquentDerog,
@@ -159,39 +158,39 @@ func (p defaultListingParser) Parse(r thin.SearchResult) (types.Listing, error) 
 	}, nil
 }
 
-func parseIncomeRange(incomeRange int64) (types.IncomeRange, error) {
-	if incomeRange < int64(types.IncomeRangeMin) || incomeRange > int64(types.IncomeRangeMax) {
-		return types.IncomeRangeInvalid, fmt.Errorf("income range out of range: %d, expected %d-%d", incomeRange, types.IncomeRangeMin, types.IncomeRangeMax)
+func parseIncomeRange(incomeRange int64) (IncomeRange, error) {
+	if incomeRange < int64(IncomeRangeMin) || incomeRange > int64(IncomeRangeMax) {
+		return IncomeRangeInvalid, fmt.Errorf("income range out of range: %d, expected %d-%d", incomeRange, IncomeRangeMin, IncomeRangeMax)
 	}
-	return types.IncomeRange(incomeRange), nil
+	return IncomeRange(incomeRange), nil
 }
 
-func parseListingStatus(listingStatus int64) (types.ListingStatus, error) {
-	if listingStatus < int64(types.ListingStatusMin) || listingStatus > int64(types.ListingStatusMax) {
-		return types.ListingStatusUnknown, fmt.Errorf("listing status out of range: %d, expected %d-%d", listingStatus, types.ListingStatusMin, types.ListingStatusMax)
+func parseListingStatus(listingStatus int64) (ListingStatus, error) {
+	if listingStatus < int64(ListingStatusMin) || listingStatus > int64(ListingStatusMax) {
+		return ListingStatusUnknown, fmt.Errorf("listing status out of range: %d, expected %d-%d", listingStatus, ListingStatusMin, ListingStatusMax)
 	}
-	return types.ListingStatus(listingStatus), nil
+	return ListingStatus(listingStatus), nil
 }
 
-func parseFicoScore(ficoScore string) (types.FicoScore, error) {
-	stringToScore := map[string]types.FicoScore{
-		"<600":    types.Below600,
-		"600-619": types.Between600And619,
-		"620-639": types.Between620And639,
-		"640-659": types.Between640And659,
-		"660-679": types.Between660And679,
-		"680-699": types.Between680And699,
-		"700-719": types.Between700And719,
-		"720-739": types.Between720And739,
-		"740-759": types.Between740And759,
-		"760-779": types.Between760And779,
-		"780-799": types.Between780And799,
-		"800-819": types.Between800And819,
-		"820-850": types.Between820And850,
+func parseFicoScore(ficoScore string) (FicoScore, error) {
+	stringToScore := map[string]FicoScore{
+		"<600":    Below600,
+		"600-619": Between600And619,
+		"620-639": Between620And639,
+		"640-659": Between640And659,
+		"660-679": Between660And679,
+		"680-699": Between680And699,
+		"700-719": Between700And719,
+		"720-739": Between720And739,
+		"740-759": Between740And759,
+		"760-779": Between760And779,
+		"780-799": Between780And799,
+		"800-819": Between800And819,
+		"820-850": Between820And850,
 	}
 	parsed, ok := stringToScore[ficoScore]
 	if !ok {
-		return types.FicoScoreInvalid, fmt.Errorf("unrecognized fico score: %s", ficoScore)
+		return FicoScoreInvalid, fmt.Errorf("unrecognized fico score: %s", ficoScore)
 	}
 	return parsed, nil
 }

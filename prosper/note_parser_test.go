@@ -6,14 +6,13 @@ import (
 	"time"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func TestNoteParser(t *testing.T) {
-	defaultReasonBankruptcy := types.Bankruptcy
+	defaultReasonBankruptcy := Bankruptcy
 	var tests = []struct {
 		input         thin.NoteResult
-		want          types.Note
+		want          Note
 		expectSuccess bool
 		msg           string
 	}{
@@ -48,11 +47,11 @@ func TestNoteParser(t *testing.T) {
 				NoteDefaultReasonDescription:         "Bankruptcy",
 				IsSold: false,
 			},
-			want: types.Note{
+			want: Note{
 				LoanNumber:                           7735,
 				AmountBorrowed:                       25000,
 				BorrowerRate:                         0.1749,
-				ProsperRating:                        types.RatingNA,
+				ProsperRating:                        RatingNA,
 				Term:                                 36,
 				AgeInMonths:                          100,
 				OriginationDate:                      time.Date(2014, 02, 22, 0, 0, 0, 0, time.UTC),
@@ -71,7 +70,7 @@ func TestNoteParser(t *testing.T) {
 				NoteOwnershipAmount:                  50,
 				NoteSaleGrossAmountReceived:          0,
 				NoteSaleFeesPaid:                     0,
-				NoteStatus:                           types.Defaulted,
+				NoteStatus:                           Defaulted,
 				NoteStatusDescription:                "DEFAULTED",
 				NoteDefaultReason:                    &defaultReasonBankruptcy,
 				NoteDefaultReasonDescription:         "Bankruptcy",
@@ -109,11 +108,11 @@ func TestNoteParser(t *testing.T) {
 				NoteStatusDescription:                "DEFAULTED",
 				IsSold:                               false,
 			},
-			want: types.Note{
+			want: Note{
 				LoanNumber:                           7735,
 				AmountBorrowed:                       25000,
 				BorrowerRate:                         0.1749,
-				ProsperRating:                        types.RatingNA,
+				ProsperRating:                        RatingNA,
 				Term:                                 36,
 				AgeInMonths:                          100,
 				OriginationDate:                      time.Date(2014, 02, 22, 0, 0, 0, 0, time.UTC),
@@ -132,7 +131,7 @@ func TestNoteParser(t *testing.T) {
 				NoteOwnershipAmount:                  50,
 				NoteSaleGrossAmountReceived:          0,
 				NoteSaleFeesPaid:                     0,
-				NoteStatus:                           types.Defaulted,
+				NoteStatus:                           Defaulted,
 				NoteStatusDescription:                "DEFAULTED",
 				IsSold:                               false,
 			},

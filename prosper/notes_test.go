@@ -6,15 +6,14 @@ import (
 	"testing"
 
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 var (
 	gotNotesParams        thin.NotesParams
 	mockRawNotesResponseA = thin.NotesResponse{TotalCount: 25}
 	mockRawNotesResponseB = thin.NotesResponse{TotalCount: 50}
-	mockNotesResponseA    = types.NotesResponse{TotalCount: 25}
-	mockNotesResponseB    = types.NotesResponse{TotalCount: 50}
+	mockNotesResponseA    = NotesResponse{TotalCount: 25}
+	mockNotesResponseB    = NotesResponse{TotalCount: 50}
 	errMockParserFail     = errors.New("mock parser error")
 )
 
@@ -25,11 +24,11 @@ func (c *mockRawClient) Notes(p thin.NotesParams) (thin.NotesResponse, error) {
 
 type mockNotesResponseParser struct {
 	gotNotesResponse thin.NotesResponse
-	notesResponse    types.NotesResponse
+	notesResponse    NotesResponse
 	err              error
 }
 
-func (p *mockNotesResponseParser) Parse(r thin.NotesResponse) (types.NotesResponse, error) {
+func (p *mockNotesResponseParser) Parse(r thin.NotesResponse) (NotesResponse, error) {
 	p.gotNotesResponse = r
 	return p.notesResponse, p.err
 }
@@ -39,9 +38,9 @@ func TestNotes(t *testing.T) {
 		params       NotesParams
 		rawResponse  thin.NotesResponse
 		clientErr    error
-		parserResult types.NotesResponse
+		parserResult NotesResponse
 		parserErr    error
-		want         types.NotesResponse
+		want         NotesResponse
 		wantParams   thin.NotesParams
 		wantErr      error
 	}{
