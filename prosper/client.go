@@ -4,7 +4,6 @@ package prosper
 import (
 	"github.com/mtlynch/gofn-prosper/prosper/auth"
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 // Client is a Prosper client that communicates with the Prosper HTTP endpoints.
@@ -17,7 +16,7 @@ type Client struct {
 }
 
 // NewClient creates a new Client with the given Prosper credentials.
-func NewClient(creds types.ClientCredentials) Client {
+func NewClient(creds auth.ClientCredentials) Client {
 	tokenMgr := auth.NewTokenManager(auth.NewAuthenticator(creds))
 	return Client{
 		rawClient:     thin.NewClient(tokenMgr),
