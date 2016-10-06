@@ -1,3 +1,5 @@
+// Package interval offers types and functions for representing ranges of data
+// with a minimum and/or maximum value.
 package interval
 
 import (
