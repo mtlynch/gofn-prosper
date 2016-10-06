@@ -5,15 +5,13 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
-
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 func TestAuthenticateSuccessfulResponse(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	creds := types.ClientCredentials{
+	creds := ClientCredentials{
 		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
@@ -64,7 +62,7 @@ func TestAuthenticateStatusOKButResponseIsMalformed(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	creds := types.ClientCredentials{
+	creds := ClientCredentials{
 		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
@@ -101,7 +99,7 @@ func TestAuthenticateHttpError(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	creds := types.ClientCredentials{
+	creds := ClientCredentials{
 		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",
@@ -122,7 +120,7 @@ func TestAuthenticateFailedResponse(t *testing.T) {
 	setUp()
 	defer tearDown()
 
-	creds := types.ClientCredentials{
+	creds := ClientCredentials{
 		ClientID:     "mock client id",
 		ClientSecret: "mock client secret",
 		Username:     "mock username",

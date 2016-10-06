@@ -8,8 +8,6 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
-
-	"github.com/mtlynch/gofn-prosper/types"
 )
 
 const baseProsperURL = "https://api.prosper.com/v1"
@@ -22,12 +20,12 @@ type ProsperAuthenticator interface {
 
 type authenticator struct {
 	baseURL string
-	creds   types.ClientCredentials
+	creds   ClientCredentials
 }
 
 // NewAuthenticator creates a new, unauthenticated Prosper API client with the
 // given Prosper credentials.
-func NewAuthenticator(creds types.ClientCredentials) ProsperAuthenticator {
+func NewAuthenticator(creds ClientCredentials) ProsperAuthenticator {
 	return &authenticator{
 		baseURL: baseProsperURL,
 		creds:   creds,
