@@ -43,7 +43,7 @@ type (
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
 func (c defaultClient) Account(AccountParams) (AccountInformation, error) {
-	rawResponse, err := c.rawClient.Accounts(thin.AccountParams{})
+	rawResponse, err := c.rawClient.Account(thin.AccountParams{})
 	if err != nil {
 		return AccountInformation{}, err
 	}
