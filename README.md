@@ -45,7 +45,7 @@ client := prosper.NewClient(auth.ClientCredentials{
 
 ### Account Information
 
-The [`Account`](https://godoc.org/github.com/mtlynch/gofn-prosper/prosper#Client.Account) API allows clients to retrieve information about their account, such as available balance and account value:
+The `Account` API allows clients to retrieve information about their account, such as available balance and account value:
 
 ```go
 account, err := client.Account(prosper.AccountParams{})
