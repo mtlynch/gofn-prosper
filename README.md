@@ -25,7 +25,7 @@ The sections below give a high-level overview of some gofn-propser features. For
 
 All Prosper actions take place through a `Client` interface. To create a `Client` instance, do the following: 
 
-```golang
+```go
 import (
   "github.com/mtlynch/gofn-prosper/prosper"
   "github.com/mtlynch/gofn-prosper/prosper/auth"
@@ -45,9 +45,9 @@ client := prosper.NewClient(auth.ClientCredentials{
 
 ### Account Information
 
-The `Account` API allows clients to retrieve information about their account, such as available balance and account value:
+The [`Account`](https://godoc.org/github.com/mtlynch/gofn-prosper/prosper#Client.Account) API allows clients to retrieve information about their account, such as available balance and account value:
 
-```golang
+```go
 account, err := client.Account(prosper.AccountParams{})
 if err != nil {
   fmt.Printf("Failed to retrieve account information: %v", err)
@@ -56,8 +56,6 @@ if err != nil {
 fmt.Printf("Your account has $%.2f in cash and a total value of $%.2f\n",
   account.AvailableCashBalance, account.TotalAccountValue)
 ```
-
-Running this should produce something like the following:
 
 ```text
 Your account has $250.00 in cash and a total value of $1893.91
@@ -69,7 +67,7 @@ The `Search` API allows clients to search the available listings, filtering by l
 
 This snippet shows how to search for loans with prosper ratings of A or B, where the borrower earns between $50,000 and $75,000 per year:
 
-```golang
+```go
 searchResp, err := client.Search(prosper.SearchParams{
   Offset: 0,
   Limit:  5,
@@ -103,7 +101,7 @@ Found 27 matching notes, showing first 5
 
 The `PlaceBid` API allows clients to make a bid on a Prosper listing.
 
-```golang
+```go
 orderResp, err := client.PlaceBid(prosper.BidRequest{
   ListingID: 5492410,
   BidAmount: 25.0,
@@ -121,7 +119,7 @@ Successfully placed order. Order ID: a9d4b52b-34cb-4112-bf57-671a18efecdd
 
 ### Checking Order Status
 
-```golang
+```go
 orderID := prosper.OrderID("a9d4b52b-34cb-4112-bf57-671a18efecdd")
 orderResp, err := client.OrderStatus(orderID)
 if err != nil {
