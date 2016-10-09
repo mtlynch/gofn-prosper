@@ -9,7 +9,7 @@ import (
 	"github.com/mtlynch/gofn-prosper/prosper/thin"
 )
 
-func (c *mockRawClient) Accounts(thin.AccountParams) (thin.AccountResponse, error) {
+func (c *mockRawClient) Account(thin.AccountParams) (thin.AccountResponse, error) {
 	return c.accountsResponse, c.err
 }
 

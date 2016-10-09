@@ -21,7 +21,7 @@ const baseProsperURL = "https://api.prosper.com/v1"
 
 // Client is an interface for the thin Prosper REST APIs.
 type Client interface {
-	Accounts(AccountParams) (AccountResponse, error)
+	Account(AccountParams) (AccountResponse, error)
 	Notes(NotesParams) (NotesResponse, error)
 	Search(SearchParams) (SearchResponse, error)
 	PlaceBid([]BidRequest) (OrderResponse, error)

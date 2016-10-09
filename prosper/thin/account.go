@@ -30,11 +30,11 @@ type (
 	}
 )
 
-// Accounts queries the Propser API for properties of the user's account,
+// Account queries the Propser API for properties of the user's account,
 // including balance information and note summaries. Accounts partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
-func (c defaultClient) Accounts(AccountParams) (response AccountResponse, err error) {
+func (c defaultClient) Account(AccountParams) (response AccountResponse, err error) {
 	err = c.DoRequest("GET", c.baseURL+"/accounts/prosper/", nil, &response)
 	if err != nil {
 		return AccountResponse{}, err
