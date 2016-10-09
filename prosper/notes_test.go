@@ -100,7 +100,7 @@ func TestNotes(t *testing.T) {
 			notesResponse: tt.parserResult,
 			err:           tt.parserErr,
 		}
-		client := Client{
+		client := defaultClient{
 			rawClient: &mockRawClient{
 				notesResponse: tt.rawResponse,
 				err:           tt.clientErr,

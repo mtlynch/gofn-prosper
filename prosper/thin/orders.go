@@ -41,7 +41,7 @@ type (
 // PlaceBid places a bid for the given listing at the given bid amount. Wraps
 // the Prosper POST /orders/ API described at:
 // https://developers.prosper.com/docs/investor/orders-api/
-func (c Client) PlaceBid(br []BidRequest) (response OrderResponse, err error) {
+func (c defaultClient) PlaceBid(br []BidRequest) (response OrderResponse, err error) {
 	reqBody, err := json.Marshal(orderParams{BidRequests: br})
 	if err != nil {
 		return OrderResponse{}, err
@@ -56,7 +56,7 @@ func (c Client) PlaceBid(br []BidRequest) (response OrderResponse, err error) {
 // OrderStatus retrieves the status of the given Propser Order ID. Wraps the
 // Prosper /orders/{order_id}/listings API described at:
 // https://developers.prosper.com/docs/investor/orders-api/
-func (c Client) OrderStatus(orderID string) (response OrderResponse, err error) {
+func (c defaultClient) OrderStatus(orderID string) (response OrderResponse, err error) {
 	err = c.DoRequest("GET", c.baseURL+"/orders/"+orderID, nil, &response)
 	if err != nil {
 		return OrderResponse{}, err

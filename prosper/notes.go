@@ -116,7 +116,7 @@ type NoteFetcher interface {
 // Notes returns a subset of the notes that the user owns. Notes partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/notes-api/
-func (c Client) Notes(p NotesParams) (NotesResponse, error) {
+func (c defaultClient) Notes(p NotesParams) (NotesResponse, error) {
 	notesResponseRaw, err := c.rawClient.Notes(notesParamsToThinType(p))
 	if err != nil {
 		return NotesResponse{}, err

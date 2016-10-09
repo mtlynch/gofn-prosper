@@ -266,7 +266,7 @@ func TestSearchSuccessfulResponse(t *testing.T) {
 		},
 	)
 
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
@@ -591,7 +591,7 @@ func TestSearchFailedResponse(t *testing.T) {
 			fmt.Fprint(w, "mock server error: request failed")
 		},
 	)
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}

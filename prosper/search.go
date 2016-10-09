@@ -211,7 +211,7 @@ type (
 // Search queries Prosper for current listings that match specified search
 // parameters. Search implements the REST API described at:
 // https://developers.prosper.com/docs/investor/searchlistings-api/
-func (c Client) Search(p SearchParams) (response SearchResponse, err error) {
+func (c defaultClient) Search(p SearchParams) (response SearchResponse, err error) {
 	rawResponse, err := c.rawClient.Search(searchParamsToThinType(p))
 	if err != nil {
 		return SearchResponse{}, err

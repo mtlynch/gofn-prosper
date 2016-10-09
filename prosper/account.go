@@ -42,7 +42,7 @@ type (
 // including balance information and note summaries. Accounts partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
-func (c Client) Account(AccountParams) (AccountInformation, error) {
+func (c defaultClient) Account(AccountParams) (AccountInformation, error) {
 	rawResponse, err := c.rawClient.Accounts(thin.AccountParams{})
 	if err != nil {
 		return AccountInformation{}, err

@@ -19,15 +19,24 @@ import (
 
 const baseProsperURL = "https://api.prosper.com/v1"
 
-// Client is a client that communicates with the Prosper REST APIs.
-type Client struct {
+// Client is an interface for the thin Prosper REST APIs.
+type Client interface {
+	Accounts(AccountParams) (AccountResponse, error)
+	Notes(NotesParams) (NotesResponse, error)
+	Search(SearchParams) (SearchResponse, error)
+	PlaceBid([]BidRequest) (OrderResponse, error)
+	OrderStatus(string) (OrderResponse, error)
+}
+
+// defaultClient is the default implementation of the Client interface.
+type defaultClient struct {
 	baseURL      string
 	tokenManager auth.TokenManager
 }
 
 // NewClient creates a new Client instance with the given token manager.
 func NewClient(t auth.TokenManager) Client {
-	return Client{
+	return &defaultClient{
 		baseURL:      baseProsperURL,
 		tokenManager: t,
 	}
@@ -35,7 +44,7 @@ func NewClient(t auth.TokenManager) Client {
 
 // DoRequest performs a single HTTP request against the Prosper server and
 // returns the result of the request.
-func (c Client) DoRequest(method, urlStr string, body io.Reader, response interface{}) error {
+func (c defaultClient) DoRequest(method, urlStr string, body io.Reader, response interface{}) error {
 	req, err := http.NewRequest(method, urlStr, body)
 	if err != nil {
 		return err
@@ -74,16 +83,7 @@ func (c Client) DoRequest(method, urlStr string, body io.Reader, response interf
 	return nil
 }
 
-// RawAPIHandler is a thin implementation of the Prosper REST APIs.
-type RawAPIHandler interface {
-	Accounts(AccountParams) (AccountResponse, error)
-	Notes(NotesParams) (NotesResponse, error)
-	Search(SearchParams) (SearchResponse, error)
-	PlaceBid([]BidRequest) (OrderResponse, error)
-	OrderStatus(string) (OrderResponse, error)
-}
-
-func (c Client) token() (string, error) {
+func (c defaultClient) token() (string, error) {
 	token, err := c.tokenManager.Token()
 	if err != nil {
 		return "", err

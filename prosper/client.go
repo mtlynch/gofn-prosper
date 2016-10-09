@@ -7,8 +7,16 @@ import (
 )
 
 // Client is a Prosper client that communicates with the Prosper HTTP endpoints.
-type Client struct {
-	rawClient           thin.RawAPIHandler
+type Client interface {
+	Account(AccountParams) (AccountInformation, error)
+	Notes(p NotesParams) (NotesResponse, error)
+	OrderStatus(orderID OrderID) (OrderResponse, error)
+	PlaceBid(BidRequest) (OrderResponse, error)
+	Search(SearchParams) (SearchResponse, error)
+}
+
+type defaultClient struct {
+	rawClient           thin.Client
 	accountParser       accountParser
 	notesResponseParser notesResponseParser
 	listingParser       listingParser
@@ -18,7 +26,7 @@ type Client struct {
 // NewClient creates a new Client with the given Prosper credentials.
 func NewClient(creds auth.ClientCredentials) Client {
 	tokenMgr := auth.NewTokenManager(auth.NewAuthenticator(creds))
-	return Client{
+	return &defaultClient{
 		rawClient:           thin.NewClient(tokenMgr),
 		accountParser:       defaultAccountParser{},
 		notesResponseParser: newNotesResponseParser(),
