@@ -34,7 +34,7 @@ func TestAccountSuccess(t *testing.T) {
 		LastDepositDate:   time.Date(2015, 10, 5, 0, 0, 0, 0, time.UTC),
 	}
 	parser := mockAccountParser{accountInformation: want}
-	client := Client{
+	client := defaultClient{
 		rawClient:     &mockRawClient{accountsResponse: a},
 		accountParser: &parser,
 	}
@@ -52,7 +52,7 @@ func TestAccountSuccess(t *testing.T) {
 
 func TestAccountFailsWhenRawClientFails(t *testing.T) {
 	parser := mockAccountParser{}
-	client := Client{
+	client := defaultClient{
 		rawClient:     &mockRawClient{err: errMockRawClientFail},
 		accountParser: &parser,
 	}
@@ -68,7 +68,7 @@ func TestAccountFailsWhenRawClientFails(t *testing.T) {
 func TestAccountFailsWhenParserFails(t *testing.T) {
 	parserErr := errors.New("mock parser error")
 	parser := mockAccountParser{err: parserErr}
-	client := Client{
+	client := defaultClient{
 		rawClient:     &mockRawClient{},
 		accountParser: &parser,
 	}

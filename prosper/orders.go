@@ -102,7 +102,7 @@ type BidPlacer interface {
 }
 
 // PlaceBid places a bid for the given listing at the given bid amount.
-func (c Client) PlaceBid(b BidRequest) (OrderResponse, error) {
+func (c defaultClient) PlaceBid(b BidRequest) (OrderResponse, error) {
 	rawResponse, err := c.rawClient.PlaceBid([]thin.BidRequest{
 		{
 			ListingID: int64(b.ListingID),
@@ -121,7 +121,7 @@ type OrderStatusQuerier interface {
 }
 
 // OrderStatus retrieves the status of the given Propser Order ID.
-func (c Client) OrderStatus(orderID OrderID) (OrderResponse, error) {
+func (c defaultClient) OrderStatus(orderID OrderID) (OrderResponse, error) {
 	rawResponse, err := c.rawClient.OrderStatus(string(orderID))
 	if err != nil {
 		return OrderResponse{}, err

@@ -35,7 +35,7 @@ func TestPlaceBidSuccessfulResponse(t *testing.T) {
 		},
 	)
 
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
@@ -82,7 +82,7 @@ func TestPlaceBidServerError(t *testing.T) {
 		},
 	)
 
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
@@ -126,7 +126,7 @@ func TestOrderStatusSuccessfulResponse(t *testing.T) {
 		},
 	)
 
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}
@@ -172,7 +172,7 @@ func TestOrderStatusFailedResponse(t *testing.T) {
 		},
 	)
 
-	client := Client{
+	client := defaultClient{
 		baseURL:      server.URL,
 		tokenManager: mockTokenManager{},
 	}

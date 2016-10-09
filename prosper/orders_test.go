@@ -106,7 +106,7 @@ func TestPlaceBid(t *testing.T) {
 			orderResponse: tt.parsedOrderResponse,
 			err:           tt.parserErr,
 		}
-		c := Client{
+		c := defaultClient{
 			rawClient:   &mockRawClient,
 			orderParser: &mockParser,
 		}
@@ -182,7 +182,7 @@ func TestOrderStatus(t *testing.T) {
 			orderResponse: tt.parsedOrderResponse,
 			err:           tt.parserErr,
 		}
-		c := Client{
+		c := defaultClient{
 			rawClient:   &mockRawClient,
 			orderParser: &mockParser,
 		}

@@ -58,7 +58,7 @@ type (
 // Notes returns a subset of the notes that the user owns. Notes partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/notes-api/
-func (c Client) Notes(p NotesParams) (response NotesResponse, err error) {
+func (c defaultClient) Notes(p NotesParams) (response NotesResponse, err error) {
 	q := notesParamsToQueryString(p)
 	url := fmt.Sprintf("%s/notes/?%s", c.baseURL, q)
 	err = c.DoRequest("GET", url, nil, &response)

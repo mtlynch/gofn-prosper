@@ -207,15 +207,15 @@ func TestSearch(t *testing.T) {
 			listings: tt.parsedListings,
 			errs:     tt.parseErrors,
 		}
-		c := Client{
+		c := defaultClient{
 			rawClient:     &rawClient,
 			listingParser: &lp,
 		}
 		got, err := c.Search(tt.searchParams)
 		if err != tt.wantErr {
-			t.Errorf("%s: Client.Search got unexpected error. got %v, want %v", tt.msg, err, tt.wantErr)
+			t.Errorf("%s: defaultClient.Search got unexpected error. got %v, want %v", tt.msg, err, tt.wantErr)
 		} else if !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("%s: Client.Search got %#v, want %#v", tt.msg, got, tt.want)
+			t.Errorf("%s: defaultClient.Search got %#v, want %#v", tt.msg, got, tt.want)
 		} else if err == nil {
 			if !rawSearchParamsEqual(rawClient.searchParams, tt.wantRawSearchParams) {
 				t.Errorf("%s: unexpected conversion of search parameters. got %+v, want %+v", tt.msg, rawClient.searchParams, tt.wantRawSearchParams)

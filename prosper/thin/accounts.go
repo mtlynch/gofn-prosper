@@ -34,7 +34,7 @@ type (
 // including balance information and note summaries. Accounts partially
 // implements the REST API described at:
 // https://developers.prosper.com/docs/investor/accounts-api/
-func (c Client) Accounts(AccountParams) (response AccountResponse, err error) {
+func (c defaultClient) Accounts(AccountParams) (response AccountResponse, err error) {
 	err = c.DoRequest("GET", c.baseURL+"/accounts/prosper/", nil, &response)
 	if err != nil {
 		return AccountResponse{}, err
